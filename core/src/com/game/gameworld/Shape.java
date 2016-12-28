@@ -22,6 +22,8 @@ public class Shape extends Texture {
     public int region_height;
     public int id;
     public String connect;
+    public Texture opacity;
+    public TextureRegion opacityRegion;
 
     public Shape (String orientation, int position, String shape_name) {
         super(Gdx.files.internal(shape_name));
@@ -54,6 +56,7 @@ public class Shape extends Texture {
         connect = shape_name.substring(shape_name.lastIndexOf("_") + 1);
         Gdx.app.log("id","" + id);
         Gdx.app.log("connect","" + connect);
+        opacity = new Texture(Gdx.files.internal("opacity.png"));
     }
 
     public Shape (Shape initial_shape, String orientation) {
@@ -81,6 +84,7 @@ public class Shape extends Texture {
         region = null;
         id = initial_shape.id;
         connect = initial_shape.connect;
+        opacity = initial_shape.opacity;
     }
 
     public void  restoreShape_up() {
