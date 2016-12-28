@@ -58,11 +58,21 @@ public class GameRendererMoves {
         batch.draw(items.getBackground(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         for(int i = 0; i < items.getNumber_of_shapes_vertical(); i++) {
             if (items.getShapesVertical(i) != null) {
+                drawOpacity_vertical(items.getShapesVertical(i));}
+        }
+        for(int i = 0; i < items.getNumber_of_shapes_horizontal(); i++) {
+            if (items.getShapesHorizontal(i) != null && i != 2) {
+                drawOpacity_horizontal(items.getShapesHorizontal(i));
+            }
+        }
+        for(int i = 0; i < items.getNumber_of_shapes_vertical(); i++) {
+            if (items.getShapesVertical(i) != null) {
                 drawShape_vertical(items.getShapesVertical(i));}
         }
         for(int i = 0; i < items.getNumber_of_shapes_horizontal(); i++) {
-            if (items.getShapesHorizontal(i) != null) {
-                drawShape_horizontal(items.getShapesHorizontal(i));}
+            if (items.getShapesHorizontal(i) != null && i != 2) {
+                drawShape_horizontal(items.getShapesHorizontal(i));
+            }
         }
 
         font.draw(batch, "Moves:" + items.getMoves(),(float) 0.042* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
@@ -105,6 +115,30 @@ public class GameRendererMoves {
         }
         if(shape.region != null && (shape.position == items.getNumber_of_shapes_horizontal() - 1 || shape.position == 5)) {
             batch.draw(shape.region,shape.x, shape.y,shape.animated + shape.width - shape.animation, shape.height);
+        }
+    }
+
+    public void drawOpacity_vertical(Shape shape) {
+        if(shape.region == null && shape.position < 5) {
+            batch.draw(shape.opacity,shape.x,shape.y,shape.width,shape.height);
+        }
+        if(shape.region != null && (shape.position == 4 || shape.position == 0)) {
+            batch.draw(shape.opacityRegion,shape.x,shape.y,shape.width,shape.height - shape.animated);
+        }
+        if(shape.region != null && (shape.position == items.getNumber_of_shapes_vertical() - 1 || shape.position == 5)) {
+            batch.draw(shape.opacityRegion,shape.x, shape.y,shape.width, shape.animated + shape.height - shape.animation);
+        }
+    }
+
+    public void drawOpacity_horizontal(Shape shape) {
+        if(shape.region == null && shape.position < 5) {
+            batch.draw(shape.opacity,shape.x,shape.y,shape.width,shape.height);
+        }
+        if(shape.region != null && (shape.position == 4 || shape.position ==0)) {
+            batch.draw(shape.opacityRegion,shape.x, shape.y,shape.width - shape.animated,shape.height);
+        }
+        if(shape.region != null && (shape.position == items.getNumber_of_shapes_horizontal() - 1 || shape.position == 5)) {
+            batch.draw(shape.opacityRegion,shape.x, shape.y,shape.animated + shape.width - shape.animation, shape.height);
         }
     }
 
