@@ -599,10 +599,12 @@ public class GameItemsMoves {
                     if (i == 4) {
                         vertical_shapes[i].decrementRegion(increment, "vertical");
                         vertical_shapes[i].region = new TextureRegion(vertical_shapes[i], 0, 256 - vertical_shapes[i].region_height, vertical_shapes[i].region_width, vertical_shapes[i].region_height);
+                        vertical_shapes[i].opacityRegion = new TextureRegion(vertical_shapes[i].opacity,0, 256 - vertical_shapes[i].region_height, vertical_shapes[i].region_width, vertical_shapes[i].region_height);
                     }
                     if (i == number_of_shapes - 1) {
                         vertical_shapes[i].decrementRegion(increment, "vertical");
                         vertical_shapes[i].region = new TextureRegion(vertical_shapes[i], 0, 0, vertical_shapes[i].region_width, 256 - vertical_shapes[i].region_height);
+                        vertical_shapes[i].opacityRegion = new TextureRegion(vertical_shapes[i].opacity, 0, 0, vertical_shapes[i].region_width, 256 - vertical_shapes[i].region_height);
                     }
                     if (i != number_of_shapes - 1) {
                         vertical_shapes[i].y += increment;
@@ -687,10 +689,12 @@ public class GameItemsMoves {
                     if (i == 0) {
                         vertical_shapes[i].decrementRegion(increment, "vertical");
                         vertical_shapes[i].region = new TextureRegion(vertical_shapes[i], 0, 0, vertical_shapes[i].region_width, vertical_shapes[i].region_height);
+                        vertical_shapes[i].opacityRegion = new TextureRegion(vertical_shapes[i].opacity, 0, 0, vertical_shapes[i].region_width, vertical_shapes[i].region_height);
                     }
                     if (i == 5) {
                         vertical_shapes[i].decrementRegion(increment, "vertical");
                         vertical_shapes[i].region = new TextureRegion(vertical_shapes[i], 0, vertical_shapes[i].region_height , vertical_shapes[i].region_width, 256 - vertical_shapes[i].region_height);
+                        vertical_shapes[i].opacityRegion = new TextureRegion(vertical_shapes[i].opacity, 0, vertical_shapes[i].region_height , vertical_shapes[i].region_width, 256 - vertical_shapes[i].region_height);
                     }
                     if (i != 0) {
                         vertical_shapes[i].y -= increment;
@@ -780,10 +784,12 @@ public class GameItemsMoves {
                         horizontal_shapes[i].decrementRegion(increment, "horizontal");
                         //Gdx.app.log("Region width at i=4","" + horizontal_shapes[i].region_width);
                         horizontal_shapes[i].region = new TextureRegion(horizontal_shapes[i], 0, 0, horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
+                        horizontal_shapes[i].opacityRegion = new TextureRegion(horizontal_shapes[i].opacity, 0, 0, horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
                     }
                     if (i == number_of_shapes - 1) {
                         horizontal_shapes[i].decrementRegion(increment, "horizontal");
                         horizontal_shapes[i].region = new TextureRegion(horizontal_shapes[i], horizontal_shapes[i].region_width, 0, 256 - horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
+                        horizontal_shapes[i].opacityRegion = new TextureRegion(horizontal_shapes[i].opacity, horizontal_shapes[i].region_width, 0, 256 - horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
                     }
                     if (i != number_of_shapes - 1) {
                         horizontal_shapes[i].x += increment;
@@ -875,12 +881,14 @@ public class GameItemsMoves {
                         horizontal_shapes[i].decrementRegion(increment, "horizontal");
                         //Gdx.app.log("width_region", ""+ horizontal_shapes[i].region_width);
                         horizontal_shapes[i].region = new TextureRegion(horizontal_shapes[i], 256 - horizontal_shapes[i].region_width, 0, horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
+                        horizontal_shapes[i].opacityRegion = new TextureRegion(horizontal_shapes[i].opacity, 256 - horizontal_shapes[i].region_width, 0, horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
                     }
                     if (i == 5) {
                         //Gdx.app.log("width_region", ""+ horizontal_shapes[i].region_width);
                         horizontal_shapes[i].decrementRegion(increment, "horizontal");
                         //Gdx.app.log("width_region", ""+ horizontal_shapes[i].region_width);
                         horizontal_shapes[i].region = new TextureRegion(horizontal_shapes[i], 0, 0 , 256 - horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
+                        horizontal_shapes[i].opacityRegion = new TextureRegion(horizontal_shapes[i].opacity, 0, 0 , 256 - horizontal_shapes[i].region_width, horizontal_shapes[i].region_height);
                     }
                     if (i != 0) {
                         horizontal_shapes[i].x -= increment;
