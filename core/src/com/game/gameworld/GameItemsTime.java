@@ -50,25 +50,14 @@ public class GameItemsTime {
     public GameItemsTime(final MyGame game, String gameMode) {
         background = new Texture(Gdx.files.internal("background.png"));
         //shape = new Texture(Gdx.files.internal("shape1.png"));
-        number_of_shapes = 30;
+        number_of_shapes = 6;
         vertical_shapes = new Shape[number_of_shapes];
         horizontal_shapes = new Shape[number_of_shapes];
         for(int i = 0; i < number_of_shapes; i++) {
-            if(i == 1) {
-                try {
-                    //vertical_shapes[i] = new Shape("vertical", i, "Shapes/Dark/11_10.png");
-                    //horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                    vertical_shapes[i] = new Shape("vertical", i, "Shapes/Light/14_30.png");
-                    horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                    continue;
-                }
-                catch (IOException exception) {
-                    Gdx.app.log("Exception","",exception);
-                }
-            }
             if(i == 2) {
                 //vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Light/11_30.png");//choose_shape());
-                vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Dark/14_10.png");//choose_shape());
+                //vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Dark/14_10.png");//choose_shape());
+                continue;
             }
             else {
                 try {
@@ -77,6 +66,23 @@ public class GameItemsTime {
                 } catch(IOException exception) {
                     Gdx.app.log("Exception", "", exception);
                 }
+            }
+        }
+        Random random = new Random();
+        if(random.nextInt(2) == 0) {
+            if(random.nextInt(2) == 0) {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(horizontal_shapes[3].name));
+            }
+            else {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(horizontal_shapes[1].name));
+            }
+        }
+        else {
+            if(random.nextInt(2) == 0) {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(vertical_shapes[3].name));
+            }
+            else {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(vertical_shapes[1].name));
             }
         }
         //shape = new Shape("horizontal", 4);
@@ -178,6 +184,54 @@ public class GameItemsTime {
         return shape_name;
     }
 
+    public String getHomogeneous_Shape(String shape_name) {
+        String homogeneous_shape = "Shapes/";
+        String connect;
+        if(shape_name.contains("Light")) {
+            homogeneous_shape += "Dark/";
+        }
+        else {
+            homogeneous_shape += "Light/";
+        }
+        shape_name = shape_name.substring(shape_name.lastIndexOf("/") + 1, shape_name.lastIndexOf("."));
+        homogeneous_shape += shape_name.substring(0, shape_name.lastIndexOf("_")) + "_";
+        connect = shape_name.substring(shape_name.lastIndexOf("_") + 1);
+        for(int j = 0; j < 2; j++) {
+            if(connect.charAt(j) == '0') {homogeneous_shape += "0";}
+            else{
+                if(connect.charAt(j) == '5') { homogeneous_shape += "5"; }
+                else {
+                    if(Character.getNumericValue(connect.charAt(j)) <= 2){
+                        homogeneous_shape +=String.valueOf(Character.getNumericValue(connect.charAt(j)) + 2);
+                    }
+                    else {homogeneous_shape +=String.valueOf(Character.getNumericValue(connect.charAt(j)) - 2);}
+                }
+            }
+        }
+        homogeneous_shape += ".png";
+
+        return homogeneous_shape;
+    }
+
+    public void create_shape_homogeneous(String orientation, int position) {
+        Shape[] currentShapes;
+        Random random = new Random();
+        String randomShape_name;
+        int randomShape_position = position;
+
+        if(orientation.equals("vertical")) {
+            currentShapes = vertical_shapes;
+        }
+        else { currentShapes = horizontal_shapes; }
+        while(randomShape_position == position || randomShape_position == 2) {
+            randomShape_position = random.nextInt(currentShapes.length);
+        }
+        if(random.nextInt(2) == 0)
+        { randomShape_name = vertical_shapes[randomShape_position].name; }
+        else { randomShape_name = horizontal_shapes[randomShape_position].name; }
+        currentShapes[position] = new Shape(orientation,position,getHomogeneous_Shape(randomShape_name));
+    }
+
     public void shiftShapes_vertical_up(int ignoreFrom, int ignoreTo) {
         Shape temp = null;
         for(int i = number_of_shapes - 1; i > -1; i--) {
@@ -194,8 +248,7 @@ public class GameItemsTime {
                 temp = vertical_shapes[0];
                 vertical_shapes[0] = vertical_shapes[i];
                 if(ignoreFrom !=0 && ignoreTo !=0) {
-                    try { vertical_shapes[i] = new Shape("vertical", i, choose_shape()); }
-                    catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    create_shape_homogeneous("vertical",i);
                 }
             }
         }
@@ -210,8 +263,7 @@ public class GameItemsTime {
                 if(i == number_of_shapes - 1) {
                     vertical_shapes[i - 1] = temp;
                     if(ignoreFrom != -1 && ignoreTo != -1) {
-                        try { vertical_shapes[i] = new Shape("vertical", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                        create_shape_homogeneous("vertical",i);
                     }
                 }
                 else {
@@ -243,8 +295,7 @@ public class GameItemsTime {
                 temp = horizontal_shapes[0];
                 horizontal_shapes[0] = horizontal_shapes[i];
                 if(ignoreFrom !=0 && ignoreTo !=0) {
-                    try { horizontal_shapes[i] = new Shape("horizontal", i, choose_shape()); }
-                    catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    create_shape_homogeneous("horizontal",i);
                 }
             }
         }
@@ -259,8 +310,7 @@ public class GameItemsTime {
                 if(i == number_of_shapes - 1) {
                     horizontal_shapes[i - 1] = temp;
                     if(ignoreFrom != -1 && ignoreTo != -1) {
-                        try { horizontal_shapes[i] = new Shape("horizontal", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                        create_shape_homogeneous("horizontal",i);
                     }
                 }
                 else {
@@ -288,8 +338,7 @@ public class GameItemsTime {
             }
             if (i == -1) {
                 vertical_shapes[0] = vertical_shapes[number_of_shapes - 1];
-                try { vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape()); }
-                catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                create_shape_homogeneous("vertical",number_of_shapes - 1);
             }
         }
     }
@@ -305,8 +354,7 @@ public class GameItemsTime {
                 vertical_shapes[i - 1] = vertical_shapes[i];
             }
             if (i == number_of_shapes - 1) {
-                try { vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape()); }
-                catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                create_shape_homogeneous("vertical",number_of_shapes - 1);
             }
         }
     }
@@ -323,8 +371,7 @@ public class GameItemsTime {
             }
             if (i == -1) {
                 horizontal_shapes[0] = horizontal_shapes[number_of_shapes - 1];
-                try { horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape()); }
-                catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                create_shape_homogeneous("horizontal",number_of_shapes - 1);
             }
         }
     }
@@ -340,8 +387,7 @@ public class GameItemsTime {
                 horizontal_shapes[i - 1] = horizontal_shapes[i];
             }
             if (i == number_of_shapes - 1) {
-                try { horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape()); }
-                catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                create_shape_homogeneous("horizontal",number_of_shapes - 1);
             }
         }
     }
@@ -641,13 +687,30 @@ public class GameItemsTime {
             if (horizontal_shapes[i] != null) {
                 horizontal_shapes[i].dispose();}
             try {
-                if(i == 2) { vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, choose_shape());}
+                if(i == 2) { continue;}
                 else {
                     vertical_shapes[i] = new Shape("vertical", i, choose_shape());
                     horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
                 }
             } catch(IOException exception) {
                 Gdx.app.log("Exception", "", exception);
+            }
+        }
+        Random random = new Random();
+        if(random.nextInt(2) == 0) {
+            if(random.nextInt(2) == 0) {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(horizontal_shapes[3].name));
+            }
+            else {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(horizontal_shapes[1].name));
+            }
+        }
+        else {
+            if(random.nextInt(2) == 0) {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(vertical_shapes[3].name));
+            }
+            else {
+                vertical_shapes[2] = horizontal_shapes[2] = new Shape("vertical", 2, getHomogeneous_Shape(vertical_shapes[1].name));
             }
         }
         time = 90;

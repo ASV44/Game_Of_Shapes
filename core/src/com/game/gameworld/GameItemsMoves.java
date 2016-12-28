@@ -625,7 +625,7 @@ public class GameItemsMoves {
         }
         if(wasAnimated == 0) {direction = "NON";}
         if(direction.equals("NON")) {
-            if(moveToCenter != 1) {
+            if(moveToCenter != 1 && connectShapes != 1) {
                 moves++;
                 if (score > 0) {
                     score -= 10;
@@ -714,7 +714,7 @@ public class GameItemsMoves {
         }
         if(wasAnimated == 0) {direction = "NON";}
         if(direction.equals("NON")) {
-            if(moveToCenter != 1) {
+            if(moveToCenter != 1  && connectShapes != 1) {
                 moves++;
                 if (score > 0) {
                     score -= 10;
@@ -807,7 +807,7 @@ public class GameItemsMoves {
         }
         if(wasAnimated == 0) {direction = "NON";}
         if(direction.equals("NON")) {
-            if(moveToCenter != 1) {
+            if(moveToCenter != 1 && connectShapes != 1) {
                 moves++;
                 if (score > 0) {
                     score -= 10;
@@ -904,7 +904,7 @@ public class GameItemsMoves {
         }
         if(wasAnimated == 0) {direction = "NON";}
         if(direction.equals("NON")) {
-            if(moveToCenter != 1) {
+            if(moveToCenter != 1 && connectShapes != 1) {
                 moves++;
                 if (score > 0 && connectionPerformed != 1) {
                     score -= 10;
