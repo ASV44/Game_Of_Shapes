@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.game.screens.GameLevelsScreen;
 import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
 import com.game.shapes.MyGame;
@@ -58,8 +59,10 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_count_moves","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Moves"));
-                game.setScreen(game.getScreenMoves());
+                /*game.setScreenMoves(new GameScreenMoves(game, "Moves"));
+                game.setScreen(game.getScreenMoves());*/
+                game.setLevelsScreeen(new GameLevelsScreen(game,"countMoves"));
+                game.setScreen(game.getLevelsScreen());
             }
         });
         stage.addActor(countMoves);
