@@ -3,7 +3,8 @@ package com.game.shapes;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.game.gesturedetector.DirectionGestureDetector;
+import com.game.gameworld.GameLevelsRenderer;
+import com.game.screens.GameLevelsScreen;
 import com.game.screens.GameModeScreen;
 import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
@@ -18,15 +19,19 @@ public class MyGame extends Game {
 	private GameScreenMoves screenMoves;
 	private GameScreenTime screenTime;
 	private InputMultiplexer inputMultiplexer;
-	private CallBack callBack;
+	//private CallBack callBack;
 	private MainMenuScreen menuScreen;
 	private GameModeScreen modeScreen;
+	private GameLevelsScreen levelsScreen;
+	private HighScores highScores;
+	private String gameMode;
 
 	@Override
 	public void create() {
 		Gdx.app.log("Shapes_Game", "created");
 		Gdx.app.log("Width",""+ Gdx.graphics.getWidth());
 		Gdx.app.log("Height",""+Gdx.graphics.getHeight());
+		highScores = new HighScores();
 		inputMultiplexer = new InputMultiplexer();
         //screen = new GameScreenBackUP();
 		//screen = new GameScreenTime(this);
@@ -113,10 +118,15 @@ public class MyGame extends Game {
 	public GameScreenMoves getScreenMoves() { return screenMoves; }
 	public MainMenuScreen getMenuScreen() { return  menuScreen; }
 	public GameModeScreen getModeScreen() { return  modeScreen; }
-	public void setCallBack(CallBack callBack) { this.callBack = callBack; }
+	public GameLevelsScreen getLevelsScreen() { return levelsScreen; }
+	//public void setCallBack(CallBack callBack) { this.callBack = callBack; }
 	public InputMultiplexer getInputMultiplexer() { return  inputMultiplexer; }
+	public String getGameMode() { return this.gameMode; }
+	public HighScores getHighScores() { return this.highScores; }
 	public void setScreenMoves(GameScreenMoves screenMoves) {this.screenMoves = screenMoves; }
 	public void setScreenTime(GameScreenTime screenTime) {this.screenTime = screenTime; }
 	public void setScreenMode(GameModeScreen screenMode) {this.modeScreen = screenMode; }
+	public void setLevelsScreeen(GameLevelsScreen screenLevels) {this.levelsScreen = screenLevels; }
+	public void setGameMode(String gameMode) {this.gameMode = gameMode; }
 
 }
