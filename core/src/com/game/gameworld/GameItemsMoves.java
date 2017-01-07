@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.shapes.MyGame;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +34,7 @@ public class GameItemsMoves {
     private Shape[] vertical_shapes;
     private Shape[] horizontal_shapes;
     private String direction;
+    private int level;
     private int moves;
     private int number_of_shapes_vertical;
     private int number_of_shapes_horizontal;
@@ -52,10 +55,11 @@ public class GameItemsMoves {
 
 
 
-    public GameItemsMoves(final MyGame game, String mode) {
+    public GameItemsMoves(final MyGame game, String mode, int level) {
         background = new Texture(Gdx.files.internal("background.png"));
         //shape = new Texture(Gdx.files.internal("shape1.png"));
-        number_of_shapes_vertical = 10;
+        this.level = level + 5;
+        number_of_shapes_vertical = this.level;
         number_of_shapes_horizontal = number_of_shapes_vertical + 1;
         vertical_shapes = new Shape[number_of_shapes_vertical];
         horizontal_shapes = new Shape[number_of_shapes_horizontal];
@@ -949,7 +953,7 @@ public class GameItemsMoves {
                 Gdx.app.log("Exception", "", exception);
             }*/
         }
-        number_of_shapes_vertical = 10;
+        number_of_shapes_vertical = level;
         number_of_shapes_horizontal = number_of_shapes_vertical +1;
         vertical_shapes = new Shape[number_of_shapes_vertical];
         horizontal_shapes = new Shape[number_of_shapes_horizontal];
@@ -958,6 +962,7 @@ public class GameItemsMoves {
         score = 0;
         moves = 0;
         direction = "NON";
+        game.getScreenMoves().getRenderer().setLevel(level);
     }
 
     public int count_null() {
@@ -968,9 +973,35 @@ public class GameItemsMoves {
         for(Shape current_shape : horizontal_shapes) {
             if(current_shape == null) { null_shapes ++; }
         }
+        //gameState is changed to gameOver at 12 null Shapes because
+        // when user combine all Shapes in vertical and horizontal arrays remains
+        //only 6 null elements in each, other null elements are deleted
         if(null_shapes == 12) { gameState = "gameOver"; }
         return null_shapes;
     }
+
+    public void add_HighScore() {
+        Gdx.app.log("level","" + (level - 5) );
+        if(mode.equals("Moves")) {
+            if(level - 5 > game.getHighScores().countMoves.size()) {
+                game.getHighScores().append_HighScore("Levels/countMoves.txt", score);
+            }
+            else {
+                game.getHighScores().change_HighScore("Levels/countMoves.txt",level,score);
+            }
+        }
+        if(mode.equals("Time1")) {
+            if(level - 5 > game.getHighScores().countMoves.size()) {
+                game.getHighScores().append_HighScore("Levels/timeChallenge/txt", score);
+            }
+            else {
+                game.getHighScores().change_HighScore("Levels/timeChallenge/txt",level,score);
+            }
+        }
+        game.getHighScores().update_HighScores();
+
+    }
+
 
     /*public void showShapes() {
         for(int i = 0; i < number_of_shapes ; i++){
@@ -1018,7 +1049,11 @@ public class GameItemsMoves {
 
     public int getScore() {return this.score; }
 
+    public int getLevel() { return this.level; }
+
     public void setGameState(String gameState) { this.gameState = gameState; }
+
+    public void setLevel(int level) { this.level = level; }
 
 }
 
