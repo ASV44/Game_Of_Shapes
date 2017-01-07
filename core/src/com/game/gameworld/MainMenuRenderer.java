@@ -60,7 +60,7 @@ public class MainMenuRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_count_moves","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Moves"));
+                game.setScreenMoves(new GameScreenMoves(game, "Moves",game.getHighScores().countMoves.size()));
                 game.setScreen(game.getScreenMoves());
             }
         });
@@ -96,7 +96,7 @@ public class MainMenuRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_time1","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Time1"));
+                game.setScreenMoves(new GameScreenMoves(game, "Time1", game.getHighScores().timeChallenge.size()));
                 game.setScreen(game.getScreenMoves());
                 //return true;
             }
@@ -113,7 +113,7 @@ public class MainMenuRenderer {
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
-        stage.draw();
+        //stage.draw();
         //Gdx.input.setInputProcessor(stage);
 
     }
