@@ -25,6 +25,7 @@ public class GameRendererMoves {
     private Stage stage;
     private float time;
     private GameOverRenderer gameOver;
+    private String level;
 
     public GameRendererMoves(GameItemsMoves items) {
         this.items = items;
@@ -44,6 +45,7 @@ public class GameRendererMoves {
         stage.addActor(items.getBackButton());
         this.items.getGame().getInputMultiplexer().addProcessor(stage);
         gameOver = null;
+        level = "" + items.getLevel() + " x " + items.getLevel();
         //Gdx.input.setInputProcessor(stage);
     }
 
@@ -75,7 +77,7 @@ public class GameRendererMoves {
             }
         }
 
-        font.draw(batch, "Moves:" + items.getMoves(),(float) 0.042* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
+        font.draw(batch, level,(float) 0.1* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         font.draw(batch, "Score:" + items.getScore(),(float) 0.33* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         time = items.getTime();
         if(items.getMode().equals("Time") || items.getMode().equals("Time1")) { font.draw(batch, "Time:" + ((int) time / 60 ) + ":" +  ((int) time  % 60) ,(float)0.8* Gdx.graphics.getWidth(), (float) 0.68 * Gdx.graphics.getHeight());}
@@ -143,4 +145,6 @@ public class GameRendererMoves {
     }
 
     public Stage getStage() { return stage;}
+
+    public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
 }
