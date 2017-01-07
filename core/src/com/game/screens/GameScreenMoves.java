@@ -19,10 +19,14 @@ public class GameScreenMoves implements Screen {
     private GameRendererMoves renderer;
     private InputMultiplexer inputMultiplexer;
 
-    public GameScreenMoves(MyGame game, String mode) {
+    public GameScreenMoves(MyGame game, String mode, int level) {
+        if(game.getLevelsScreen() != null) {
+            game.getLevelsScreen().dispose();
+            game.setLevelsScreeen(null);
+        }
         this.inputMultiplexer = game.getInputMultiplexer();
         inputMultiplexer.clear();
-        items = new GameItemsMoves(game, mode);
+        items = new GameItemsMoves(game, mode, level);
         renderer = new GameRendererMoves(items);
 
         inputMultiplexer.addProcessor(new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
@@ -98,6 +102,7 @@ public class GameScreenMoves implements Screen {
         items.setDirection(direction);
     }
     public GameItemsMoves getItems() { return items; }
+    public GameRendererMoves getRenderer() { return renderer; }
     public String getItemsDirection() { return items.getDirection();}
     public Stage getRenderStage() { return renderer.getStage(); }
 }
