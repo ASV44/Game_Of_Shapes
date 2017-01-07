@@ -42,7 +42,7 @@ public class GameOverRenderer {
     private Drawable drawable;
     private ImageButton restart;
     private ImageButton menu;
-    private ImageButton vibrate;
+    private ImageButton nextLevel;
     private ImageButton back;
     private MyGame game;
     private Stage stage;
@@ -80,7 +80,7 @@ public class GameOverRenderer {
         stage.addActor(restart);
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,100,725,245,151));
         menu = new ImageButton(drawable);
-        menu.setBounds((float) 0.692 * Gdx.graphics.getWidth(), (float) 0.225 * Gdx.graphics.getHeight(),(float) 0.231 * Gdx.graphics.getWidth(), (float) 0.082 * Gdx.graphics.getHeight());
+        menu.setBounds((float) 0.388 * Gdx.graphics.getWidth(), (float) 0.225 * Gdx.graphics.getHeight(),(float) 0.231 * Gdx.graphics.getWidth(), (float) 0.082 * Gdx.graphics.getHeight());
         menu.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
@@ -90,31 +90,37 @@ public class GameOverRenderer {
             }
         });
         stage.addActor(menu);
-        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,420,725,243,151));
-        vibrate = new ImageButton(drawable);
-        vibrate.setBounds((float) 0.388 * Gdx.graphics.getWidth(), (float) 0.225 * Gdx.graphics.getHeight(),(float) 0.231 * Gdx.graphics.getWidth(), (float) 0.082 * Gdx.graphics.getHeight());
-        vibrate.addListener(new ActorGestureListener() {
+        //drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,420,725,243,151));
+        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,420,914,243,151));
+        nextLevel = new ImageButton(drawable);
+        nextLevel.setBounds((float) 0.692 * Gdx.graphics.getWidth(), (float) 0.225 * Gdx.graphics.getHeight(),(float) 0.231 * Gdx.graphics.getWidth(), (float) 0.082 * Gdx.graphics.getHeight());
+        nextLevel.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_menu","works ");
-                game.setScreen(game.getMenuScreen());
-                game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+                if(gameMode.equals("Time")) {
+                    //game.getScreenTime().getItems().
+                    game.getScreenTime().getItems().setGameState("Active");
+                    game.getScreenTime().getItems().Restart();
+                }
+                if(gameMode.equals("Moves") || gameMode.equals("Time1")) {
+                    game.getScreenMoves().getItems().setLevel(game.getScreenMoves().getItems().getLevel() + 1);
+                    game.getHighScores().append_HighScore(game.getHighScores().getDir(gameMode), 0);
+                    game.getHighScores().update_HighScores();
+                    game.getScreenMoves().getItems().setGameState("Active");
+                    game.getScreenMoves().getItems().Restart();
+                }
             }
         });
-        stage.addActor(vibrate);
+        stage.addActor(nextLevel);
         game.getInputMultiplexer().addProcessor(stage);
+        game.getScreenMoves().getItems().add_HighScore();
     }
 
     public void  render() {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         batch.begin();
-        //restartground
-        //seaTexture = new Texture(px);
-        //Color c = batch.getColor();
-        //batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
-        //batch.draw(restartground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //foreground
         c = batch.getColor();
         batch.setColor(c.r, c.g, c.b, .5f);//set alpha to 0.3
         batch.draw(foreground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
