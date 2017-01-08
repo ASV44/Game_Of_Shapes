@@ -14,9 +14,9 @@ import java.util.List;
 
 public class HighScores {
 
-    public List<Integer> countMoves = null;
-    public List<Integer> timeAttack = null;
-    public  List<Integer> timeChallenge = null;
+    public List<String> countMoves = null;
+    public List<String> timeAttack = null;
+    public  List<String> timeChallenge = null;
 
     public String countMoves_dir = "Levels/countMoves.txt";
     public String timeAttack_dir = "Levels/timeAttack.txt";
@@ -26,9 +26,9 @@ public class HighScores {
         update_HighScores();
     }
 
-    public List<Integer> read_HighScore(String ScoreList_name) throws IOException {
+    public List<String> read_HighScore(String ScoreList_name) throws IOException {
         FileHandle scoreList;
-        List<Integer> scores = new ArrayList<Integer>();
+        List<String> scores = new ArrayList<String>();
         if(Gdx.files.local(ScoreList_name).exists()) {
             scoreList = Gdx.files.local(ScoreList_name);
         } else {
@@ -41,7 +41,7 @@ public class HighScores {
         try {
             while((score = bufferedReader.readLine()) !=  null) {
                 Gdx.app.log("Score" + i,score);
-                scores.add(Integer.parseInt(score));
+                scores.add(score);
                 i++;
             }
         }
@@ -76,9 +76,11 @@ public class HighScores {
         }
     }
 
-    public void change_HighScore(String directory, int level, int score) {
+    public void change_HighScore(String directory, int level, String score) {
         FileHandle scoreList;
-        List<Integer> highScores = new ArrayList<Integer>();
+        List<String> highScores = new ArrayList<String>();
+
+        score = score.replaceAll(",",".");
 
         if(!Gdx.files.local(directory).exists()) {
             scoreList = Gdx.files.local(directory);
@@ -87,11 +89,17 @@ public class HighScores {
         else {
             try { highScores = read_HighScore(directory); }
             catch (IOException exception) { Gdx.app.log("Exception","",exception); }
-            if(score > highScores.get(level - 6)) { highScores.set(level - 6, score); }
+            if(directory.contains("Challenge"))
+            {
+                if(Float.parseFloat(highScores.get(level - 6)) == 0) { highScores.set(level - 6, score); }
+                if(Float.parseFloat(score) < Float.parseFloat(highScores.get(level - 6))) { highScores.set(level - 6, score); }
+            }
+            if(Float.parseFloat(score) > Float.parseFloat(highScores.get(level - 6)) && !directory.contains("Challenge"))
+            { highScores.set(level - 6, score); }
             scoreList = Gdx.files.local(directory);
             for(int i = 0; i < highScores.size(); i++) {
-                if(i == 0 ) { scoreList.writeString(String.valueOf(highScores.get(i)),false);}
-                else { scoreList.writeString("\n" + String.valueOf(highScores.get(i)),true); }
+                if(i == 0 ) { scoreList.writeString(highScores.get(i),false);}
+                else { scoreList.writeString("\n" + highScores.get(i),true); }
             }
         }
     }
@@ -100,6 +108,14 @@ public class HighScores {
         if(mode.equals("Moves")) { return countMoves_dir; }
         if(mode.equals("Time1")) { return timeChallenge_dir; }
         if(mode.equals("Time")) { return  timeAttack_dir; }
+
+        return null;
+    }
+
+    public List<String> getScores(String mode) {
+        if(mode.equals("Moves")) { return countMoves; }
+        if(mode.equals("Time1")) { return timeChallenge; }
+        if(mode.equals("Time")) { return  timeAttack; }
 
         return null;
     }
