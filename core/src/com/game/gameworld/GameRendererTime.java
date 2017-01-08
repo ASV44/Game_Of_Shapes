@@ -27,6 +27,7 @@ public class GameRendererTime {
     private float time;
     private GameOverRenderer gameOver;
     private Texture foreground;
+    private String level;
 
     public GameRendererTime(GameItemsTime items) {
         this.items = items;
@@ -48,6 +49,7 @@ public class GameRendererTime {
         gameOver = null;
         //Gdx.input.setInputProcessor(stage);
         foreground = new Texture(Gdx.files.internal("foreground.png"));
+        level = "" + items.getLevel() + " x " + items.getLevel();
 
     }
 
@@ -94,7 +96,7 @@ public class GameRendererTime {
             }
         }
 
-        font.draw(batch, "Moves:" + items.getMoves(),(float) 0.042* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
+        font.draw(batch, level,(float) 0.1* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         font.draw(batch, "Score:" + items.getScore(),(float) 0.33* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         time = items.getTime();
         font.draw(batch, "Time:" + ((int) time / 60 ) + ":" +  ((int) time  % 60) ,(float)0.77* Gdx.graphics.getWidth(), (float) 0.7 * Gdx.graphics.getHeight());
@@ -162,4 +164,6 @@ public class GameRendererTime {
     }
 
     public Stage getStage() { return stage;}
+
+    public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
 }
