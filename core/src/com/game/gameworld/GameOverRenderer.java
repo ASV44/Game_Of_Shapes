@@ -100,12 +100,19 @@ public class GameOverRenderer {
                 Gdx.app.log("Button_menu","works ");
                 if(gameMode.equals("Time")) {
                     //game.getScreenTime().getItems().
+                    game.getScreenTime().getItems().setLevel(game.getScreenTime().getItems().getLevel() + 1);
+                    if((game.getScreenTime().getItems().getLevel() - 5) > game.getHighScores().getScores(gameMode).size()) {
+                        game.getHighScores().append_HighScore(game.getHighScores().getDir(gameMode), 0);
+                    }
+                    game.getHighScores().update_HighScores();
                     game.getScreenTime().getItems().setGameState("Active");
                     game.getScreenTime().getItems().Restart();
                 }
                 if(gameMode.equals("Moves") || gameMode.equals("Time1")) {
                     game.getScreenMoves().getItems().setLevel(game.getScreenMoves().getItems().getLevel() + 1);
-                    game.getHighScores().append_HighScore(game.getHighScores().getDir(gameMode), 0);
+                    if((game.getScreenMoves().getItems().getLevel() - 5) > game.getHighScores().getScores(gameMode).size()) {
+                        game.getHighScores().append_HighScore(game.getHighScores().getDir(gameMode), 0);
+                    }
                     game.getHighScores().update_HighScores();
                     game.getScreenMoves().getItems().setGameState("Active");
                     game.getScreenMoves().getItems().Restart();
@@ -114,7 +121,7 @@ public class GameOverRenderer {
         });
         stage.addActor(nextLevel);
         game.getInputMultiplexer().addProcessor(stage);
-        game.getScreenMoves().getItems().add_HighScore();
+        addCurrentScore();
     }
 
     public void  render() {
@@ -122,15 +129,15 @@ public class GameOverRenderer {
 
         batch.begin();
         c = batch.getColor();
-        batch.setColor(c.r, c.g, c.b, .5f);//set alpha to 0.3
+        batch.setColor(c.r, c.g, c.b, .7f);//set alpha to 0.3
         batch.draw(foreground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Color c = batch.getColor();
         batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
         if( gameMode.equals("Time")) {
             finalMessage = "Time is Over !";
-            font.draw(batch, finalMessage,(float) 0.277 * Gdx.graphics.getWidth(), (float) 0.52 * Gdx.graphics.getHeight());
-            font.draw(batch, "Your Score is:", (float) 0.277 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
-            font.draw(batch, "" + game.getScreenTime().getItems().getScore(), (float) 0.5 * Gdx.graphics.getWidth(), (float) 0.38 * Gdx.graphics.getHeight());
+            font.draw(batch, finalMessage,(float) 0.33 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
+            font.draw(batch, "Your Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.55 * Gdx.graphics.getHeight());
+            font.draw(batch, "" + game.getScreenTime().getItems().getScore(), (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.48 * Gdx.graphics.getHeight());
         }
         if( gameMode.equals("Moves")) {
             if(game.getScreenMoves().getItems().getScore() <= 0) {
@@ -157,12 +164,17 @@ public class GameOverRenderer {
             font.draw(batch, finalMessage, (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.57 * Gdx.graphics.getHeight());
             finalMessage = "all Shapes";
             font.draw(batch, finalMessage, (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.52 * Gdx.graphics.getHeight());
-            font.draw(batch, "In: " +  String.valueOf(decimalFormat.format(game.getScreenMoves().getItems().getTime() ) ) + " sec" , (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
+            font.draw(batch, "In: " +  String.valueOf(decimalFormat.format(game.getScreenMoves().getItems().getTime() ) ) + " sec" , (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
         }
 
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         stage.draw();
+    }
+
+    public void addCurrentScore() {
+        if(gameMode.equals("Time")) { game.getScreenTime().getItems().add_HighScore();}
+        if(gameMode.equals("Moves") || gameMode.equals("TIme1")) { game.getScreenMoves().getItems().add_HighScore(); }
     }
 
     public Stage getStage() { return this.stage; }
