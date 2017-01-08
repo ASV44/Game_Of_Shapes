@@ -44,13 +44,14 @@ public class GameItemsTime {
     private int score;
     private MyGame game;
     private String gameMode;
+    private int level;
+    private boolean vibrate = true;
 
 
-
-    public GameItemsTime(final MyGame game, String gameMode) {
+    public GameItemsTime(final MyGame game, String gameMode, int level) {
         background = new Texture(Gdx.files.internal("background.png"));
         //shape = new Texture(Gdx.files.internal("shape1.png"));
-        number_of_shapes = 6;
+        number_of_shapes = level + 5;
         vertical_shapes = new Shape[number_of_shapes];
         horizontal_shapes = new Shape[number_of_shapes];
         for(int i = 0; i < number_of_shapes; i++) {
@@ -120,6 +121,7 @@ public class GameItemsTime {
             }
         });
         this.gameMode = gameMode;
+        this.level = level + 5;
     }
 
     public void update(float delta) {
@@ -141,6 +143,7 @@ public class GameItemsTime {
             if (time < 0) { gameState = "gameOver"; }//callBack.gameOver(score);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.getInputMultiplexer().clear();
             game.setScreen(game.getMenuScreen());
             game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
         }
@@ -410,7 +413,7 @@ public class GameItemsTime {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = number_of_shapes - 2;
-                Gdx.input.vibrate(500);
+                vibration();
             }
         }
 
@@ -480,7 +483,7 @@ public class GameItemsTime {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = 0;
-                Gdx.input.vibrate(500);
+                vibration();
             }
         }
         //if (vertical_shapes[number_of_shapes - 1] != null)
@@ -550,7 +553,7 @@ public class GameItemsTime {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = number_of_shapes - 2;
-                Gdx.input.vibrate(500);
+                vibration();
             }
         }
 
@@ -629,7 +632,7 @@ public class GameItemsTime {
                 connectShapes = 1;
                 ignoreFrom = 0;
                 ignoreTo = 2;
-                Gdx.input.vibrate(500);
+                vibration();
             }
         }
         //if (vertical_shapes[number_of_shapes - 1] != null)
@@ -703,6 +706,7 @@ public class GameItemsTime {
             } catch(IOException exception) {
                 Gdx.app.log("Exception", "", exception);
             }
+            game.getScreenTime().getRenderer().setLevel(level);
         }
         Random random = new Random();
         if(random.nextInt(2) == 0) {
@@ -732,6 +736,23 @@ public class GameItemsTime {
             Gdx.app.log("Shape " + i, "" + vertical_shapes[i]);
         }
     }*/
+
+    public void add_HighScore() {
+
+        Gdx.app.log("level","" + (level - 5) );
+        if(level - 5 > game.getHighScores().timeAttack.size()) {
+            game.getHighScores().append_HighScore("Levels/timeAttack.txt", score);
+        }
+        else {
+            game.getHighScores().change_HighScore("Levels/timeAttack.txt",level,String.valueOf(score));
+        }
+        game.getHighScores().update_HighScores();
+
+    }
+
+    public void vibration() {
+        if(vibrate) { Gdx.input.vibrate(500); }
+    }
 
     public Texture getBackground() {
         return background;
@@ -772,4 +793,12 @@ public class GameItemsTime {
     public int getScore() { return  this.score; }
 
     public void setGameState(String gameState) { this.gameState = gameState; }
+
+    public void setLevel(int level) { this.level = level; }
+
+    public int getLevel() { return  this.level; }
+
+    public void setVibrate(boolean vibrate) { this.vibrate = vibrate; }
+
+    public boolean getVibrate() { return this.vibrate; }
 }
