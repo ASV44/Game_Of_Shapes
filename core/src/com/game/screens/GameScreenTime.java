@@ -20,10 +20,10 @@ public class GameScreenTime implements Screen {
     private GameRendererTime renderer;
     private InputMultiplexer inputMultiplexer;
 
-    public GameScreenTime(MyGame game, String gameMode) {
+    public GameScreenTime(MyGame game, String gameMode,int level) {
         this.inputMultiplexer = game.getInputMultiplexer();
         inputMultiplexer.clear();
-        items = new GameItemsTime(game, gameMode);
+        items = new GameItemsTime(game, gameMode,level);
         renderer = new GameRendererTime(items);
         inputMultiplexer.addProcessor(new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
             @Override
@@ -101,4 +101,5 @@ public class GameScreenTime implements Screen {
     public GameItemsTime getItems() { return items; }
     public String getItemsDirection() { return items.getDirection();}
     public Stage getRenderStage() { return renderer.getStage(); }
+    public GameRendererTime getRenderer() { return renderer; }
 }
