@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +53,7 @@ public class GameItemsMoves {
     private String mode;
     private int connectionPerformed;
     private int wasCopied;
+    private boolean vibrate = true;
 
 
 
@@ -162,6 +164,7 @@ public class GameItemsMoves {
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.getInputMultiplexer().clear();
             game.setScreen(game.getMenuScreen());
             game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
         }
@@ -582,7 +585,7 @@ public class GameItemsMoves {
                 ignoreFrom = 2;
                 ignoreTo = number_of_shapes - 2;
                 connectionPerformed = 1;
-                Gdx.input.vibrate(500);
+                vibration();
             }
         }
         if(vertical_shapes[5] == null && vertical_shapes[4] != null && ignoreFrom == 0 && ignoreTo == 0 && number_of_shapes <= 6) {
@@ -673,7 +676,7 @@ public class GameItemsMoves {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = 0;
-                Gdx.input.vibrate(500);
+                vibration();
                 connectionPerformed = 1;
             }
         }
@@ -765,7 +768,7 @@ public class GameItemsMoves {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = number_of_shapes - 2;
-                Gdx.input.vibrate(500);
+                
                 connectionPerformed = 1;
             }
         }
@@ -861,7 +864,7 @@ public class GameItemsMoves {
                 connectShapes = 1;
                 ignoreFrom = 0;
                 ignoreTo = 2;
-                Gdx.input.vibrate(500);
+                vibration();
                 connectionPerformed = 1;
             }
         }
@@ -981,27 +984,32 @@ public class GameItemsMoves {
     }
 
     public void add_HighScore() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
         Gdx.app.log("level","" + (level - 5) );
         if(mode.equals("Moves")) {
             if(level - 5 > game.getHighScores().countMoves.size()) {
                 game.getHighScores().append_HighScore("Levels/countMoves.txt", score);
             }
             else {
-                game.getHighScores().change_HighScore("Levels/countMoves.txt",level,score);
+                game.getHighScores().change_HighScore("Levels/countMoves.txt",level,String.valueOf(score));
             }
         }
         if(mode.equals("Time1")) {
-            if(level - 5 > game.getHighScores().countMoves.size()) {
-                game.getHighScores().append_HighScore("Levels/timeChallenge/txt", score);
+            if(level - 5 > game.getHighScores().timeChallenge.size()) {
+                game.getHighScores().append_HighScore("Levels/timeChallenge.txt", score);
             }
             else {
-                game.getHighScores().change_HighScore("Levels/timeChallenge/txt",level,score);
+                game.getHighScores().change_HighScore("Levels/timeChallenge.txt",level,String.valueOf(decimalFormat.format(time)));
             }
         }
         game.getHighScores().update_HighScores();
 
     }
-
+    
+    public void vibration() {
+        if(vibrate) { Gdx.input.vibrate(500); }
+    }
 
     /*public void showShapes() {
         for(int i = 0; i < number_of_shapes ; i++){
@@ -1050,10 +1058,14 @@ public class GameItemsMoves {
     public int getScore() {return this.score; }
 
     public int getLevel() { return this.level; }
+    
+    public boolean getVibrate() { return this.vibrate; }
 
     public void setGameState(String gameState) { this.gameState = gameState; }
 
     public void setLevel(int level) { this.level = level; }
+    
+    public void setVibrate(boolean vibrate) { this.vibrate = vibrate; }
 
 }
 
