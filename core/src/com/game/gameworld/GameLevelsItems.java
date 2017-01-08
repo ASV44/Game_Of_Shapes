@@ -1,6 +1,7 @@
 package com.game.gameworld;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.game.screens.GameScreenMoves;
+import com.game.screens.GameScreenTime;
 import com.game.shapes.HighScores;
 import com.game.shapes.MyGame;
 
@@ -24,7 +26,7 @@ import java.util.Random;
 public class GameLevelsItems {
     private MyGame game;
     private String gameMode;
-    public List<Integer>  highScores;
+    public List<String>  highScores;
     private SpriteBatch batch;
     private BitmapFont font;
     private FreeTypeFontGenerator generator;
@@ -45,7 +47,7 @@ public class GameLevelsItems {
     private String direction;
     private float animation;
     private float animated = 0;
-    private float increment = 15;
+    private float increment = 25;
 
     public GameLevelsItems(MyGame game, String gameMode) {
         this.game = game;
@@ -76,6 +78,11 @@ public class GameLevelsItems {
         if(direction.equals("left")) { moveLeft(); }
         if(direction.equals("right")) { moveRight(); }
         if(direction.equals("up")) { moveUp(); }
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.getInputMultiplexer().clear();
+            game.setScreen(game.getModeScreen());
+            game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage());
+        }
 
     }
 
@@ -118,8 +125,7 @@ public class GameLevelsItems {
         else {
             direction = "NON";
             animated = 0;
-            game.setScreenMoves(new GameScreenMoves(game,"Moves", currentLevel));
-            game.setScreen(game.getScreenMoves());
+            startLevel(gameMode);
         }
     }
 
@@ -168,6 +174,21 @@ public class GameLevelsItems {
             current = previous;
             previous = null;
             currentLevel --;
+        }
+    }
+
+    public void startLevel(String gameMode) {
+        if(gameMode.equals("countMoves")) {
+            game.setScreenMoves(new GameScreenMoves(game, "Moves", currentLevel));
+            game.setScreen(game.getScreenMoves());
+        }
+        if(gameMode.equals("timeChallenge")) {
+            game.setScreenMoves(new GameScreenMoves(game, "Time1", currentLevel));
+            game.setScreen(game.getScreenMoves());
+        }
+        if(gameMode.equals("timeAttack")) {
+            game.setScreenTime(new GameScreenTime(game, "Time", currentLevel));
+            game.setScreen(game.getScreenTime());
         }
     }
 
