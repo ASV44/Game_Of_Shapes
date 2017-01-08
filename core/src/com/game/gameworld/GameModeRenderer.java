@@ -73,8 +73,8 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_time_attack","works ");
-                game.setScreenTime(new GameScreenTime(game, "Time"));
-                game.setScreen(game.getScreenTime());
+                game.setLevelsScreeen(new GameLevelsScreen(game,"timeAttack"));
+                game.setScreen(game.getLevelsScreen());
                 //return true;
             }
         });
@@ -86,8 +86,8 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_time1","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Time1"));
-                game.setScreen(game.getScreenMoves());
+                game.setLevelsScreeen(new GameLevelsScreen(game,"timeChallenge"));
+                game.setScreen(game.getLevelsScreen());
                 //return true;
             }
         });
@@ -109,6 +109,7 @@ public class GameModeRenderer {
     }
 
     public void render() {
+
         Gdx.gl.glClearColor(255, 255, 255, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -117,8 +118,11 @@ public class GameModeRenderer {
         //stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         //stage.draw();
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.getInputMultiplexer().clear();
             game.setScreen(game.getMenuScreen());
             game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
         }
     }
+
+    public Stage getStage() { return this.stage; }
 }
