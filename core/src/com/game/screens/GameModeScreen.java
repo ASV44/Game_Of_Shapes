@@ -2,6 +2,7 @@ package com.game.screens;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.gameworld.GameModeRenderer;
 import com.game.shapes.MyGame;
 
@@ -52,4 +53,6 @@ public class GameModeScreen implements Screen {
     public void dispose() {
 
     }
+
+    public Stage getStage() { return renderer.getStage(); }
 }
