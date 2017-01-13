@@ -86,9 +86,7 @@ public class GameLevelsScreen implements Screen {
 
     @Override
     public void dispose() {
-        renderer.getBackground().dispose();
-        renderer.getBatch().dispose();
-        items.getBatch().dispose();
-        items.getShape().dispose();
+        items.dispose();
+        renderer.dispose();
     }
 }
