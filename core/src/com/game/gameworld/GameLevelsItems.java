@@ -32,11 +32,12 @@ public class GameLevelsItems {
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private Color c;
-    private FrameBuffer frameBuffer;
+    private FrameBuffer frameBuffer = null;
+    private FrameBuffer prev_frameBuffer = null;
     private Sprite current;
     private Sprite next = null;
     private Sprite previous = null;
-    private Texture Shape;
+    private Texture Shape = null;
     private String shapeName = "Levels/";
     private int randomShape;
     private int prev_randomShape = 0;
@@ -78,6 +79,7 @@ public class GameLevelsItems {
         if(direction.equals("left")) { moveLeft(); }
         if(direction.equals("right")) { moveRight(); }
         if(direction.equals("up")) { moveUp(); }
+        if(direction.equals("down")) { moveDown(); }
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.getInputMultiplexer().clear();
             game.setScreen(game.getModeScreen());
@@ -96,11 +98,14 @@ public class GameLevelsItems {
 
     public void createShapeTexture() {
         while((randomShape = random.nextInt(24) + 1) == prev_randomShape) {}
+        if(Shape != null) { Shape.dispose(); }
         Shape = new Texture(Gdx.files.internal(shapeName + randomShape + ".png"));
         prev_randomShape = randomShape;
     }
 
     public void createFrameBufferShape(int level) {
+        if(prev_frameBuffer != null) { prev_frameBuffer.dispose(); }
+        if(frameBuffer != null) { prev_frameBuffer = frameBuffer; }
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height,false);
         frameBuffer.begin();
         Gdx.gl.glClearColor(255, 255, 255, 0);
@@ -127,6 +132,10 @@ public class GameLevelsItems {
             animated = 0;
             startLevel(gameMode);
         }
+    }
+
+    public void moveDown() {
+        direction = "NON";
     }
 
     public void moveLeft() {
@@ -178,18 +187,38 @@ public class GameLevelsItems {
     }
 
     public void startLevel(String gameMode) {
+        if(game.getScreenMoves() != null) {
+            game.getScreenMoves().dispose();
+            game.setScreenMoves(null);
+        }
+        if(game.getScreenTime() != null) {
+            game.getScreenTime().dispose();
+            game.setScreenTime(null);
+        }
         if(gameMode.equals("countMoves")) {
             game.setScreenMoves(new GameScreenMoves(game, "Moves", currentLevel));
+            game.setCurrent_gameScreen(game.getScreenMoves());
             game.setScreen(game.getScreenMoves());
         }
         if(gameMode.equals("timeChallenge")) {
+
             game.setScreenMoves(new GameScreenMoves(game, "Time1", currentLevel));
+            game.setCurrent_gameScreen(game.getScreenMoves());
             game.setScreen(game.getScreenMoves());
         }
         if(gameMode.equals("timeAttack")) {
             game.setScreenTime(new GameScreenTime(game, "Time", currentLevel));
+            game.setCurrent_gameScreen(game.getScreenTime());
             game.setScreen(game.getScreenTime());
         }
+    }
+
+    public void dispose() {
+        batch.dispose();
+        Shape.dispose();
+        font.dispose();
+        frameBuffer.dispose();
+        if(prev_frameBuffer != null) { frameBuffer.dispose(); }
     }
 
     public Sprite getCurrent() { return this.current; }
@@ -200,10 +229,7 @@ public class GameLevelsItems {
 
     public String getDirection() { return this.direction; }
 
-    public Texture getShape() { return Shape; }
-
-    public SpriteBatch getBatch() { return batch; }
-
     public void setDirection(String direction) { this.direction = direction; }
+
 
 }
