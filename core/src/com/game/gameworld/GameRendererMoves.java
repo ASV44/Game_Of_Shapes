@@ -16,8 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameRendererMoves {
     private GameItemsMoves items;
-    private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
     private BitmapFont font;
     private FreeTypeFontGenerator generator;
@@ -29,9 +27,6 @@ public class GameRendererMoves {
 
     public GameRendererMoves(GameItemsMoves items) {
         this.items = items;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer = new ShapeRenderer();
         //shapeRenderer.setProjectionMatrix(camera.combined);
         batch = new SpriteBatch();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
@@ -91,6 +86,7 @@ public class GameRendererMoves {
         else {
             if(gameOver != null) {
                 items.getGame().getInputMultiplexer().removeProcessor(gameOver.getStage());
+                gameOver.dispose();
                 gameOver = null;
             }
         }
@@ -147,4 +143,13 @@ public class GameRendererMoves {
     public Stage getStage() { return stage;}
 
     public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
+
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+        stage.dispose();
+        if(gameOver != null) {
+            gameOver.dispose();
+        }
+    }
 }
