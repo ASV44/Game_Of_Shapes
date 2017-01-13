@@ -19,13 +19,14 @@ public class GameScreenTime implements Screen {
     private GameItemsTime items;
     private GameRendererTime renderer;
     private InputMultiplexer inputMultiplexer;
+    private DirectionGestureDetector directionGestureDetector;
 
     public GameScreenTime(MyGame game, String gameMode,int level) {
         this.inputMultiplexer = game.getInputMultiplexer();
         inputMultiplexer.clear();
         items = new GameItemsTime(game, gameMode,level);
         renderer = new GameRendererTime(items);
-        inputMultiplexer.addProcessor(new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
+        directionGestureDetector =  new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
             @Override
             public void onUp() {
                 //Gdx.app.log("Direction", "up");
@@ -53,7 +54,8 @@ public class GameScreenTime implements Screen {
                 if(items.getDirection().equals("NON")) {
                     items.setDirection("down");}
             }
-        }));
+        });
+        inputMultiplexer.addProcessor(directionGestureDetector);
         //Gdx.input.setInputProcessor(game.getInputMultiplexer());
 
     }
@@ -81,7 +83,8 @@ public class GameScreenTime implements Screen {
 
     @Override
     public void resume() {
-
+        inputMultiplexer.addProcessor(directionGestureDetector);
+        inputMultiplexer.addProcessor(getRenderStage());
     }
 
     @Override
@@ -91,7 +94,8 @@ public class GameScreenTime implements Screen {
 
     @Override
     public void dispose() {
-
+        items.dispose();
+        renderer.dispose();
     }
 
 
@@ -102,4 +106,6 @@ public class GameScreenTime implements Screen {
     public String getItemsDirection() { return items.getDirection();}
     public Stage getRenderStage() { return renderer.getStage(); }
     public GameRendererTime getRenderer() { return renderer; }
+    public InputMultiplexer getInputMultiplexer() { return  this.inputMultiplexer; }
+    public DirectionGestureDetector getDirectionGestureDetector() { return this.directionGestureDetector; }
 }
