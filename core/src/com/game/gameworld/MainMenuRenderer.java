@@ -29,11 +29,11 @@ import com.game.shapes.MyGame;
 public class MainMenuRenderer {
     private Game game;
     private SpriteBatch batch;
-    private BitmapFont font;
+    /*private BitmapFont font;
     private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;*/
     private Stage stage;
-    private ImageButton timeAttack;
+    private ImageButton gameModes;
     private ImageButton countMoves;
     private ImageButton exit;
     private Drawable drawable;
@@ -45,12 +45,12 @@ public class MainMenuRenderer {
         this.game = game;
         background = new Texture(Gdx.files.internal("menu.png"));
         batch = new SpriteBatch();
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
+        /*generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = Color.BLACK;
         parameter.size = (int) (0.045 * Gdx.graphics.getHeight());
         font = generator.generateFont(parameter);
-        generator.dispose();
+        generator.dispose();*/
         stage = new Stage();
         buttonTexture = new Texture(Gdx.files.internal("menu.png"));
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,158,507,755,481));
@@ -60,24 +60,37 @@ public class MainMenuRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_count_moves","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Moves",game.getHighScores().countMoves.size()));
-                game.setScreen(game.getScreenMoves());
+                if(game.getCurrent_gameScreen() == null) {
+                    game.setScreenMoves(new GameScreenMoves(game, "Moves", game.getHighScores().countMoves.size()));
+                    game.setScreen(game.getScreenMoves());
+                }
+                else {
+                    game.getInputMultiplexer().clear();
+                    game.getCurrent_gameScreen().resume();
+                    game.setScreen(game.getCurrent_gameScreen());
+                }
             }
         });
         stage.addActor(countMoves);
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,197,1173,672,194));
-        timeAttack = new ImageButton(drawable);
-        timeAttack.setBounds((float) 0.182 * Gdx.graphics.getWidth(), (float) 0.288 * Gdx.graphics.getHeight(), (float) 0.622 * Gdx.graphics.getWidth(), (float) 0.101 * Gdx.graphics.getHeight());
-        timeAttack.addListener(new ActorGestureListener(){
+        gameModes = new ImageButton(drawable);
+        gameModes.setBounds((float) 0.182 * Gdx.graphics.getWidth(), (float) 0.288 * Gdx.graphics.getHeight(), (float) 0.622 * Gdx.graphics.getWidth(), (float) 0.101 * Gdx.graphics.getHeight());
+        gameModes.addListener(new ActorGestureListener(){
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
-                Gdx.app.log("Button_time_attack","works ");
-                game.setScreenMode(new GameModeScreen(game));
+                Gdx.app.log("Button_gameModes","works ");
+                if(game.getModeScreen() == null) {
+                    game.setScreenMode(new GameModeScreen(game));
+                }
+                else
+                {
+                    game.getInputMultiplexer().clear();
+                    game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage()); }
                 game.setScreen(game.getModeScreen());
                 //return true;
             }
         });
-        stage.addActor(timeAttack);
+        stage.addActor(gameModes);
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,415,1603,246,156));
         exit = new ImageButton(drawable);
         exit.setBounds((float) 0.384 * Gdx.graphics.getWidth(), (float) 0.084375 * Gdx.graphics.getHeight(), (float) 0.227 * Gdx.graphics.getWidth(), (float) 0.08125 * Gdx.graphics.getHeight());
