@@ -18,6 +18,7 @@ public class GameScreenMoves implements Screen {
     private GameItemsMoves items;
     private GameRendererMoves renderer;
     private InputMultiplexer inputMultiplexer;
+    private DirectionGestureDetector directionGestureDetector;
 
     public GameScreenMoves(MyGame game, String mode, int level) {
         if(game.getLevelsScreen() != null) {
@@ -29,7 +30,7 @@ public class GameScreenMoves implements Screen {
         items = new GameItemsMoves(game, mode, level);
         renderer = new GameRendererMoves(items);
 
-        inputMultiplexer.addProcessor(new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
+        directionGestureDetector = new DirectionGestureDetector(new DirectionGestureDetector.DirectionListener() {
             @Override
             public void onUp() {
                 //Gdx.app.log("Direction", "up");
@@ -57,7 +58,8 @@ public class GameScreenMoves implements Screen {
                 if(items.getDirection().equals("NON")) {
                     items.setDirection("down");}
             }
-        }));
+        });
+        inputMultiplexer.addProcessor(directionGestureDetector);
         //Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -84,7 +86,8 @@ public class GameScreenMoves implements Screen {
 
     @Override
     public void resume() {
-
+        inputMultiplexer.addProcessor(directionGestureDetector);
+        inputMultiplexer.addProcessor(getRenderStage());
     }
 
     @Override
@@ -94,8 +97,8 @@ public class GameScreenMoves implements Screen {
 
     @Override
     public void dispose() {
-
-
+        items.dispose();
+        renderer.dispose();
     }
 
     public void setItems(String direction) {
