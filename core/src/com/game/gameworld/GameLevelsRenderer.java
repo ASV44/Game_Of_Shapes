@@ -53,6 +53,9 @@ public class GameLevelsRenderer {
         batch.end();
     }
 
-    public Texture getBackground() { return background; }
-    public SpriteBatch getBatch() { return batch; }
+    public void dispose() {
+        background.dispose();
+        batch.dispose();
+    }
+
 }
