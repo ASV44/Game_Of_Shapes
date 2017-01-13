@@ -450,7 +450,7 @@ public class GameItemsMoves {
         int number_of_shapes = vertical_shapes.length;
         for(int i = 2; i >= -1; i--) {
             if(i > 0) {
-                //vertical_shapes[i].dispose();
+                vertical_shapes[i].dispose();
                 vertical_shapes[i] = null;
                 horizontal_shapes[2] = null;
             }
@@ -479,7 +479,7 @@ public class GameItemsMoves {
         int number_of_shapes = vertical_shapes.length;
         for(int i = 2; i < number_of_shapes; i++) {
             if(i < 4) {
-                //vertical_shapes[i].dispose();
+                vertical_shapes[i].dispose();
                 vertical_shapes[i] = null;
                 horizontal_shapes[2] = null;
             }
@@ -507,7 +507,7 @@ public class GameItemsMoves {
         int number_of_shapes = horizontal_shapes.length;
         for(int i = 2; i >= -1; i--) {
             if(i > 0) {
-                //vertical_shapes[i].dispose();
+                horizontal_shapes[i].dispose();
                 horizontal_shapes[i] = null;
                 vertical_shapes[2] = null;
             }
@@ -534,9 +534,11 @@ public class GameItemsMoves {
 
     public void shiftShapes_connected_horizontal_left() {
         int number_of_shapes = horizontal_shapes.length;
+        for(int i = 0; i < number_of_shapes; i++)
+        { Gdx.app.log("Horizontal_shape " + i, "" + horizontal_shapes[i]);}
         for(int i = 2; i < number_of_shapes; i++) {
             if(i < 4) {
-                //vertical_shapes[i].dispose();
+                horizontal_shapes[i].dispose();
                 horizontal_shapes[i] = null;
                 vertical_shapes[2] = null;
             }
@@ -577,7 +579,7 @@ public class GameItemsMoves {
                 ignoreTo = number_of_shapes - 2;
             }
         } else {
-            vertical_shapes[2].animation = (float) (0.108 * Gdx.graphics.getHeight());
+            vertical_shapes[2].animation = (float) 0.1077 * Gdx.graphics.getHeight();
         }
         if(vertical_shapes[2] != null && vertical_shapes [1] != null) {
             if (vertical_shapes[2].id == vertical_shapes[1].id && (vertical_shapes[2].connect.charAt(0) == '1' || vertical_shapes[2].connect.charAt(0) == '5') && (!vertical_shapes[2].connect.equals(vertical_shapes[1].connect))) {
@@ -669,7 +671,7 @@ public class GameItemsMoves {
                 ignoreTo = 0;
             }
         } else {
-            vertical_shapes[2].animation = (float) (0.108 * Gdx.graphics.getHeight());
+            vertical_shapes[2].animation = (float) 0.1077 * Gdx.graphics.getHeight();
         }
         if(vertical_shapes[2] != null && vertical_shapes[3] != null) {
             if (vertical_shapes[2].id == vertical_shapes[3].id && (vertical_shapes[2].connect.charAt(0) == '3' || vertical_shapes[2].connect.charAt(0) == '5') && (!vertical_shapes[2].connect.equals(vertical_shapes[3].connect))) {
@@ -761,14 +763,14 @@ public class GameItemsMoves {
                 ignoreTo = number_of_shapes - 2;
             }
         } else {
-            horizontal_shapes[2].animation = (float) (0.19 * Gdx.graphics.getWidth());
+            horizontal_shapes[2].animation = (float) (0.1925 * Gdx.graphics.getWidth());
         }
         if(horizontal_shapes[2] != null && horizontal_shapes [1] != null) {
             if (horizontal_shapes[2].id == horizontal_shapes[1].id && (horizontal_shapes[2].connect.charAt(1) == '2' || horizontal_shapes[2].connect.charAt(1) == '5') && (!horizontal_shapes[2].connect.equals(horizontal_shapes[1].connect))) {
                 connectShapes = 1;
                 ignoreFrom = 2;
                 ignoreTo = number_of_shapes - 2;
-                
+                vibration();
                 connectionPerformed = 1;
             }
         }
@@ -857,7 +859,7 @@ public class GameItemsMoves {
                 ignoreTo = 2;
             }
         } else {
-            horizontal_shapes[2].animation = (float) (0.19 * Gdx.graphics.getWidth());
+            horizontal_shapes[2].animation = (float) (0.1925 * Gdx.graphics.getWidth());
         }
         if(horizontal_shapes[2] != null && horizontal_shapes[3] != null) {
             if (horizontal_shapes[2].id == horizontal_shapes[3].id && (horizontal_shapes[2].connect.charAt(1) == '4' || horizontal_shapes[2].connect.charAt(1) == '5') && (!horizontal_shapes[2].connect.equals(horizontal_shapes[3].connect))) {
@@ -1008,14 +1010,30 @@ public class GameItemsMoves {
     }
     
     public void vibration() {
+        Gdx.app.log("Vibration","" + vibrate);
         if(vibrate) { Gdx.input.vibrate(500); }
     }
 
-    /*public void showShapes() {
-        for(int i = 0; i < number_of_shapes ; i++){
-            Gdx.app.log("Shape " + i, "" + vertical_shapes[i]);
+    public void showShapes() {
+        Gdx.app.log("", "*********************** ");
+        for(int i = 0; i < vertical_shapes.length ; i++){
+            Gdx.app.log("Vertical_Shape " + i, "" + vertical_shapes[i]);
         }
-    }*/
+        Gdx.app.log("", "*********************** ");
+        for(int i = 0; i < horizontal_shapes.length ; i++){
+            Gdx.app.log("Horizontal_Shape " + i, "" + horizontal_shapes[i]);
+        }
+    }
+
+    public void dispose() {
+        background.dispose();
+        for(int i = 0; i < vertical_shapes.length; i++) {
+            if(vertical_shapes[i] != null) { vertical_shapes[i].dispose();}
+        }
+        for(int i = 0; i < horizontal_shapes.length; i++) {
+            if(horizontal_shapes[i] != null) { horizontal_shapes[i].dispose();}
+        }
+    }
 
     public Texture getBackground() {
         return background;
