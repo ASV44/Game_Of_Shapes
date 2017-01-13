@@ -17,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameRendererTime {
     private GameItemsTime items;
-    private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
     private BitmapFont font;
     private FreeTypeFontGenerator generator;
@@ -26,15 +24,10 @@ public class GameRendererTime {
     private Stage stage;
     private float time;
     private GameOverRenderer gameOver;
-    private Texture foreground;
     private String level;
 
     public GameRendererTime(GameItemsTime items) {
         this.items = items;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer = new ShapeRenderer();
-        //shapeRenderer.setProjectionMatrix(camera.combined);
         batch = new SpriteBatch();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -48,7 +41,6 @@ public class GameRendererTime {
         this.items.getGame().getInputMultiplexer().addProcessor(stage);
         gameOver = null;
         //Gdx.input.setInputProcessor(stage);
-        foreground = new Texture(Gdx.files.internal("foreground.png"));
         level = "" + items.getLevel() + " x " + items.getLevel();
 
     }
@@ -110,6 +102,7 @@ public class GameRendererTime {
         else {
             if(gameOver != null) {
                 items.getGame().getInputMultiplexer().removeProcessor(gameOver.getStage());
+                gameOver.dispose();
                 gameOver = null;
             }
         }
@@ -166,4 +159,13 @@ public class GameRendererTime {
     public Stage getStage() { return stage;}
 
     public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
+
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+        stage.dispose();
+        if(gameOver != null) {
+            gameOver.dispose();
+        }
+    }
 }
