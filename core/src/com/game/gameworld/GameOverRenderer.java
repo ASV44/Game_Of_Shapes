@@ -86,6 +86,7 @@ public class GameOverRenderer {
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_menu","works ");
                 game.setScreen(game.getMenuScreen());
+                game.getInputMultiplexer().clear();
                 game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
             }
         });
@@ -174,8 +175,16 @@ public class GameOverRenderer {
 
     public void addCurrentScore() {
         if(gameMode.equals("Time")) { game.getScreenTime().getItems().add_HighScore();}
-        if(gameMode.equals("Moves") || gameMode.equals("TIme1")) { game.getScreenMoves().getItems().add_HighScore(); }
+        if(gameMode.equals("Moves") || gameMode.equals("Time1")) { game.getScreenMoves().getItems().add_HighScore(); }
     }
 
     public Stage getStage() { return this.stage; }
+
+    public void dispose() {
+        font.dispose();
+        stage.dispose();
+        foreground.dispose();
+        buttonTexture.dispose();
+    }
+
 }
