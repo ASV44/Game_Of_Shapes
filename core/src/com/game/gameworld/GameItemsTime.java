@@ -332,7 +332,7 @@ public class GameItemsTime {
     public void shiftShapes_connected_vertical_up() {
         for(int i = 2; i >= -1; i--) {
             if(i > 0) {
-                //vertical_shapes[i].dispose();
+                vertical_shapes[i].dispose();
                 vertical_shapes[i] = null;
                 horizontal_shapes[2] = null;
             }
@@ -349,7 +349,7 @@ public class GameItemsTime {
     public void shiftShapes_connected_vertical_down() {
         for(int i = 2; i < number_of_shapes; i++) {
             if(i < 4) {
-                //vertical_shapes[i].dispose();
+                vertical_shapes[i].dispose();
                 vertical_shapes[i] = null;
                 horizontal_shapes[2] = null;
             }
@@ -365,7 +365,7 @@ public class GameItemsTime {
     public void shiftShapes_connected_horizontal_right() {
         for(int i = 2; i >= -1; i--) {
             if(i > 0) {
-                //vertical_shapes[i].dispose();
+                horizontal_shapes[i].dispose();
                 horizontal_shapes[i] = null;
                 vertical_shapes[2] = null;
             }
@@ -382,7 +382,7 @@ public class GameItemsTime {
     public void shiftShapes_connected_horizontal_left() {
         for(int i = 2; i < number_of_shapes; i++) {
             if(i < 4) {
-                //vertical_shapes[i].dispose();
+                horizontal_shapes[i].dispose();
                 horizontal_shapes[i] = null;
                 vertical_shapes[2] = null;
             }
@@ -729,6 +729,9 @@ public class GameItemsTime {
         score = 0;
         moves = 0;
         direction = "NON";
+        //if(game.getInputMultiplexer().getProcessors().contains(
+        //        game.getScreenTime().get
+        //))
     }
 
     /*public void showShapes() {
@@ -753,6 +756,17 @@ public class GameItemsTime {
     public void vibration() {
         if(vibrate) { Gdx.input.vibrate(500); }
     }
+
+    public void dispose() {
+        background.dispose();
+        for(int i = 0; i < vertical_shapes.length; i++) {
+            if(vertical_shapes[i] != null) { vertical_shapes[i].dispose();}
+        }
+        for(int i = 0; i < horizontal_shapes.length; i++) {
+            if(horizontal_shapes[i] != null) { horizontal_shapes[i].dispose();}
+        }
+    }
+
 
     public Texture getBackground() {
         return background;
