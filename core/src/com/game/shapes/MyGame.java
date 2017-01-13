@@ -3,6 +3,7 @@ package com.game.shapes;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.game.gameworld.GameLevelsRenderer;
 import com.game.screens.GameLevelsScreen;
 import com.game.screens.GameModeScreen;
@@ -21,10 +22,11 @@ public class MyGame extends Game {
 	private InputMultiplexer inputMultiplexer;
 	//private CallBack callBack;
 	private MainMenuScreen menuScreen;
-	private GameModeScreen modeScreen;
-	private GameLevelsScreen levelsScreen;
+	private GameModeScreen modeScreen = null;
+	private GameLevelsScreen levelsScreen = null;
 	private HighScores highScores;
 	private String gameMode;
+	private Screen current_gameScreen = null;
 
 	@Override
 	public void create() {
@@ -123,10 +125,12 @@ public class MyGame extends Game {
 	public InputMultiplexer getInputMultiplexer() { return  inputMultiplexer; }
 	public String getGameMode() { return this.gameMode; }
 	public HighScores getHighScores() { return this.highScores; }
+	public Screen getCurrent_gameScreen() { return  this.current_gameScreen; }
 	public void setScreenMoves(GameScreenMoves screenMoves) {this.screenMoves = screenMoves; }
 	public void setScreenTime(GameScreenTime screenTime) {this.screenTime = screenTime; }
 	public void setScreenMode(GameModeScreen screenMode) {this.modeScreen = screenMode; }
 	public void setLevelsScreeen(GameLevelsScreen screenLevels) {this.levelsScreen = screenLevels; }
 	public void setGameMode(String gameMode) {this.gameMode = gameMode; }
+	public void setCurrent_gameScreen(Screen gameScreen) { this.current_gameScreen = gameScreen ;}
 
 }
