@@ -28,9 +28,9 @@ import com.game.shapes.MyGame;
 public class GameModeRenderer {
     private MyGame game;
     private SpriteBatch batch;
-    private BitmapFont font;
+    /*private BitmapFont font;
     private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;*/
     private Stage stage;
     private Texture background;
     private Texture buttonTexture;
@@ -44,12 +44,12 @@ public class GameModeRenderer {
         this.game = game;
         background = new Texture(Gdx.files.internal("game_mode.png"));
         batch = new SpriteBatch();
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
+        /*generator = new FreeTypeFontGenerator(Gdx.files.internal("good_time.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = Color.BLACK;
         parameter.size = (int) (0.045 * Gdx.graphics.getHeight());
         font = generator.generateFont(parameter);
-        generator.dispose();
+        generator.dispose();*/
         stage = new Stage();
         buttonTexture = new Texture(Gdx.files.internal("game_mode.png"));
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,0,507,621,223));
@@ -59,8 +59,7 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_count_moves","works ");
-                /*game.setScreenMoves(new GameScreenMoves(game, "Moves"));
-                game.setScreen(game.getScreenMoves());*/
+                if(game.getLevelsScreen() != null) { game.getLevelsScreen().dispose(); }
                 game.setLevelsScreeen(new GameLevelsScreen(game,"countMoves"));
                 game.setScreen(game.getLevelsScreen());
             }
@@ -73,6 +72,7 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_time_attack","works ");
+                if(game.getLevelsScreen() != null) { game.getLevelsScreen().dispose(); }
                 game.setLevelsScreeen(new GameLevelsScreen(game,"timeAttack"));
                 game.setScreen(game.getLevelsScreen());
                 //return true;
@@ -86,6 +86,7 @@ public class GameModeRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_time1","works ");
+                if(game.getLevelsScreen() != null) { game.getLevelsScreen().dispose(); }
                 game.setLevelsScreeen(new GameLevelsScreen(game,"timeChallenge"));
                 game.setScreen(game.getLevelsScreen());
                 //return true;
