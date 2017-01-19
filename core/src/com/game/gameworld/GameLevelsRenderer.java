@@ -47,9 +47,14 @@ public class GameLevelsRenderer {
         //sprite = items.getCurrent();
         batch.begin();
         batch.draw(background,0,0,width,height);
-        items.getCurrent().draw(batch);
+        batch.end();
+        batch.begin();
+        if(items.getCurrent() != null) { items.getCurrent().draw(batch); }
         if(items.getNext() != null) { items.getNext().draw(batch); }
         if(items.getPrevious() != null) { items.getPrevious().draw(batch); }
+        if(items.getStage() != null) {
+            items.getStage().draw();
+        }
         batch.end();
     }
 
