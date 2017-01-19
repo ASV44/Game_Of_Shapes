@@ -136,9 +136,12 @@ public class GameOverRenderer {
         batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
         if( gameMode.equals("Time")) {
             finalMessage = "Time is Over !";
-            font.draw(batch, finalMessage,(float) 0.33 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
-            font.draw(batch, "Your Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.55 * Gdx.graphics.getHeight());
-            font.draw(batch, "" + game.getScreenTime().getItems().getScore(), (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.48 * Gdx.graphics.getHeight());
+            font.draw(batch, finalMessage,(float) 0.31 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
+            font.draw(batch, "Your Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.59 * Gdx.graphics.getHeight());
+            font.draw(batch, "" + game.getScreenTime().getItems().getScore(), (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.54 * Gdx.graphics.getHeight());
+            font.draw(batch, "Best Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.49 * Gdx.graphics.getHeight());
+            font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenTime().getItems().getLevel() - 6),
+                    (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.43 * Gdx.graphics.getHeight());
         }
         if( gameMode.equals("Moves")) {
             if(game.getScreenMoves().getItems().getScore() <= 0) {
@@ -149,23 +152,29 @@ public class GameOverRenderer {
             }
             else {
                 finalMessage = "Excellent !";
-                font.draw(batch, finalMessage, (float) 0.33 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
+                font.draw(batch, finalMessage, (float) 0.33 * Gdx.graphics.getWidth(), (float) 0.73 * Gdx.graphics.getHeight());
                 finalMessage = "You have combined";
-                font.draw(batch, finalMessage, (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.57 * Gdx.graphics.getHeight());
+                font.draw(batch, finalMessage, (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
                 finalMessage = "all Shapes";
-                font.draw(batch, finalMessage, (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.52 * Gdx.graphics.getHeight());
-                font.draw(batch, "Your Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
-                font.draw(batch, "" + game.getScreenMoves().getItems().getScore(), (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.38 * Gdx.graphics.getHeight());
+                font.draw(batch, finalMessage, (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.6 * Gdx.graphics.getHeight());
+                font.draw(batch, "Your Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.54 * Gdx.graphics.getHeight());
+                font.draw(batch, "" + game.getScreenMoves().getItems().getScore(), (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.5 * Gdx.graphics.getHeight());
+                font.draw(batch, "Best Score is:", (float) 0.28 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
+                font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6),
+                        (float) 0.45 * Gdx.graphics.getWidth(), (float) 0.38 * Gdx.graphics.getHeight());
             }
         }
         if(gameMode.equals("Time1")) {
             finalMessage = "Excellent !";
-            font.draw(batch, finalMessage, (float) 0.33 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
+            font.draw(batch, finalMessage, (float) 0.33 * Gdx.graphics.getWidth(), (float) 0.75 * Gdx.graphics.getHeight());
             finalMessage = "You have combined";
-            font.draw(batch, finalMessage, (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.57 * Gdx.graphics.getHeight());
+            font.draw(batch, finalMessage, (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.67 * Gdx.graphics.getHeight());
             finalMessage = "all Shapes";
-            font.draw(batch, finalMessage, (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.52 * Gdx.graphics.getHeight());
-            font.draw(batch, "In: " +  String.valueOf(decimalFormat.format(game.getScreenMoves().getItems().getTime() ) ) + " sec" , (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight());
+            font.draw(batch, finalMessage, (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.62 * Gdx.graphics.getHeight());
+            font.draw(batch, "In: " +  String.valueOf(decimalFormat.format(game.getScreenMoves().getItems().getTime() ) ) + " sec" , (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.55 * Gdx.graphics.getHeight());
+            font.draw(batch, "Best Time is:", (float) 0.32 * Gdx.graphics.getWidth(), (float) 0.48 * Gdx.graphics.getHeight());
+            font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6) + " sec",
+                    (float) 0.38 * Gdx.graphics.getWidth(), (float) 0.43 * Gdx.graphics.getHeight());
         }
 
         batch.end();
