@@ -25,6 +25,7 @@ public class GameRendererTime {
     private float time;
     private GameOverRenderer gameOver;
     private String level;
+    private PauseRenderer pauseRenderer;
 
     public GameRendererTime(GameItemsTime items) {
         this.items = items;
@@ -37,7 +38,7 @@ public class GameRendererTime {
         generator.dispose();
         stage = new Stage();
         stage.addActor(items.getRestartButton());
-        stage.addActor(items.getBackButton());
+        stage.addActor(items.getPauseButton());
         this.items.getGame().getInputMultiplexer().addProcessor(stage);
         gameOver = null;
         //Gdx.input.setInputProcessor(stage);
@@ -106,6 +107,17 @@ public class GameRendererTime {
                 gameOver = null;
             }
         }
+        if(items.getGameState().equals("Pause")) {
+            if(pauseRenderer == null) { pauseRenderer = new PauseRenderer(items.getGame(), batch, items.getGameMode()); }
+            pauseRenderer.render();
+        }
+        else {
+            if(pauseRenderer != null) {
+                items.getGame().getInputMultiplexer().removeProcessor(pauseRenderer.getStage());
+                pauseRenderer.dispose();
+                pauseRenderer = null;
+            }
+        }
     }
 
     public void drawShape_vertical(Shape shape) {
@@ -168,4 +180,16 @@ public class GameRendererTime {
             gameOver.dispose();
         }
     }
+
+    public Stage getGameOverStage() {
+        return gameOver.getStage();
+    }
+
+    public Stage getPauseStage() {
+        return pauseRenderer.getStage();
+    }
+
+    public GameOverRenderer getGameOver() { return this.gameOver; }
+
+    public PauseRenderer getPause() { return  this.pauseRenderer; }
 }
