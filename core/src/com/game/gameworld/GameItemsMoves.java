@@ -43,7 +43,7 @@ public class GameItemsMoves {
     private int increment;
     private int lala = 0;
     private ImageButton restartButton;
-    private ImageButton backButton;
+    private ImageButton pauseButton;
     private Drawable drawable;
     private float time;
     private String gameState;
@@ -65,40 +65,7 @@ public class GameItemsMoves {
         number_of_shapes_horizontal = number_of_shapes_vertical + 1;
         vertical_shapes = new Shape[number_of_shapes_vertical];
         horizontal_shapes = new Shape[number_of_shapes_horizontal];
-        /*for(int i = 0; i < number_of_shapes; i++) {
-            if(i == 1) {
-                try {
-                   // vertical_shapes[i] = new Shape("vertical", i, "Shapes/Dark/11_10.png");
-                    //horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                    vertical_shapes[i] = new Shape("vertical", i, "Shapes/Light/14_30.png");
-                    horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                    continue;
-                }
-                catch (IOException exception) {
-                    Gdx.app.log("Exception","",exception);
-                }
-            }
-            if(i == 2) {
-                //vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Light/11_30.png");//choose_shape());
-                vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Dark/14_10.png");//choose_shape());
-            }
-            /*else {
-                if( i == 5) {
-                    vertical_shapes[i] = null;
-                    horizontal_shapes[i] = null;
-                }
-                else {
-                    try {
-                        vertical_shapes[i] = new Shape("vertical", i, choose_shape());
-                        horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                    } catch (IOException exception) {
-                        Gdx.app.log("Exception", "", exception);
-                    }
-                }
-            //}
-        }*/
         create_shapes_homogeneous();
-        //shape = new Shape("horizontal", 4);
         direction = "NON";
         moves = 0;
         region = null;
@@ -114,21 +81,20 @@ public class GameItemsMoves {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 if(gameState.equals("Active")) {
-                    Gdx.app.log("Button","works ");
+                    Gdx.app.log("RestartButton","works ");
                     Restart();
                 }
             }
         });
         drawable = new TextureRegionDrawable(new TextureRegion(background, 804, 290, 118, 121));
-        backButton = new ImageButton(drawable);
-        backButton.setBounds((float) 0.744 * Gdx.graphics.getWidth(), (float) 0.785 * Gdx.graphics.getHeight(), (float) 0.109 * Gdx.graphics.getWidth(), (float) 0.063 * Gdx.graphics.getHeight());
-        backButton.addListener(new ActorGestureListener() {
+        pauseButton = new ImageButton(drawable);
+        pauseButton.setBounds((float) 0.744 * Gdx.graphics.getWidth(), (float) 0.785 * Gdx.graphics.getHeight(), (float) 0.109 * Gdx.graphics.getWidth(), (float) 0.063 * Gdx.graphics.getHeight());
+        pauseButton.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 if(gameState.equals(("Active"))) {
-                    Gdx.app.log("Button_back", "works ");
-                    game.setScreen(game.getMenuScreen());
-                    game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+                    Gdx.app.log("PauseButton", "works ");
+                    setGameState("Pause");
                 }
             }
         });
@@ -163,10 +129,15 @@ public class GameItemsMoves {
                time += delta;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.getInputMultiplexer().clear();
-            game.setScreen(game.getMenuScreen());
-            game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            if(gameState.equals("Active")) {
+                game.getInputMultiplexer().clear();
+                game.setScreen(game.getMenuScreen());
+                game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+            }
+            if(gameState.equals("Pause")) {
+                gameState = "Active";
+            }
         }
     }
 
@@ -948,6 +919,8 @@ public class GameItemsMoves {
                 vertical_shapes[i].dispose(); }
             if (horizontal_shapes[i] != null) {
                 horizontal_shapes[i].dispose();}
+//            System.gc();
+//            Runtime.getRuntime().gc();
             /*try {
                 if(i == 2) { vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, choose_shape());}
                 else {
@@ -1059,7 +1032,7 @@ public class GameItemsMoves {
 
     public ImageButton getRestartButton() { return restartButton; }
 
-    public ImageButton getBackButton() { return backButton; }
+    public ImageButton getPauseButton() { return pauseButton; }
 
     public float getTime() { return time; }
 
