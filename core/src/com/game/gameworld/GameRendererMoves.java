@@ -24,6 +24,7 @@ public class GameRendererMoves {
     private float time;
     private GameOverRenderer gameOver;
     private String level;
+    private PauseRenderer pauseRenderer;
 
     public GameRendererMoves(GameItemsMoves items) {
         this.items = items;
@@ -37,11 +38,12 @@ public class GameRendererMoves {
         generator.dispose();
         stage = new Stage();
         stage.addActor(items.getRestartButton());
-        stage.addActor(items.getBackButton());
+        stage.addActor(items.getPauseButton());
         this.items.getGame().getInputMultiplexer().addProcessor(stage);
         gameOver = null;
         level = "" + items.getLevel() + " x " + items.getLevel();
-        //Gdx.input.setInputProcessor(stage);
+        pauseRenderer = null;
+
     }
 
     public void render() {
@@ -88,6 +90,17 @@ public class GameRendererMoves {
                 items.getGame().getInputMultiplexer().removeProcessor(gameOver.getStage());
                 gameOver.dispose();
                 gameOver = null;
+            }
+        }
+        if(items.getGameState().equals("Pause")) {
+            if(pauseRenderer == null) { pauseRenderer = new PauseRenderer(items.getGame(), batch, items.getMode()); }
+            pauseRenderer.render();
+        }
+        else {
+            if(pauseRenderer != null) {
+                items.getGame().getInputMultiplexer().removeProcessor(pauseRenderer.getStage());
+                pauseRenderer.dispose();
+                pauseRenderer = null;
             }
         }
     }
@@ -140,10 +153,6 @@ public class GameRendererMoves {
         }
     }
 
-    public Stage getStage() { return stage;}
-
-    public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
-
     public void dispose() {
         batch.dispose();
         font.dispose();
@@ -152,4 +161,22 @@ public class GameRendererMoves {
             gameOver.dispose();
         }
     }
+
+    public Stage getStage() { return stage;}
+
+    public void setLevel(int level) { this.level = this.level.replaceAll(String.valueOf(level - 1), String.valueOf(level));}
+
+    public Stage getGameOverStage() {
+        return gameOver.getStage();
+    }
+
+    public Stage getPauseStage() {
+        return pauseRenderer.getStage();
+    }
+
+    public GameOverRenderer getGameOver() { return this.gameOver; }
+
+    public PauseRenderer getPause() { return  this.pauseRenderer; }
+
+
 }
