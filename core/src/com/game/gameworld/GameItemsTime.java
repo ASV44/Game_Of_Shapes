@@ -36,7 +36,7 @@ public class GameItemsTime {
     private int increment;
     private int lala = 0;
     private ImageButton restartButton;
-    private ImageButton backButton;
+    private ImageButton pauseButton;
     private Drawable drawable;
     private float time;
     private String gameState;
@@ -108,15 +108,14 @@ public class GameItemsTime {
             }
         });
         drawable = new TextureRegionDrawable(new TextureRegion(background, 804, 290, 118, 121));
-        backButton = new ImageButton(drawable);
-        backButton.setBounds((float) 0.744 * Gdx.graphics.getWidth(), (float) 0.785 * Gdx.graphics.getHeight(), (float) 0.109 * Gdx.graphics.getWidth(), (float) 0.063 * Gdx.graphics.getHeight());
-        backButton.addListener(new ActorGestureListener() {
+        pauseButton = new ImageButton(drawable);
+        pauseButton.setBounds((float) 0.744 * Gdx.graphics.getWidth(), (float) 0.785 * Gdx.graphics.getHeight(), (float) 0.109 * Gdx.graphics.getWidth(), (float) 0.063 * Gdx.graphics.getHeight());
+        pauseButton.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 if(gameState.equals("Active")) {
-                    Gdx.app.log("Button_back", "works ");
-                    game.setScreen(game.getMenuScreen());
-                    game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+                    Gdx.app.log("Pause_back", "works ");
+                    setGameState("Pause");
                 }
             }
         });
@@ -142,10 +141,15 @@ public class GameItemsTime {
             time -= delta;
             if (time < 0) { gameState = "gameOver"; }//callBack.gameOver(score);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.getInputMultiplexer().clear();
-            game.setScreen(game.getMenuScreen());
-            game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            if(gameState.equals("Active")) {
+                game.getInputMultiplexer().clear();
+                game.setScreen(game.getMenuScreen());
+                game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
+            }
+            if(gameState.equals("Pause")) {
+                gameState = "Active";
+            }
         }
     }
 
@@ -790,7 +794,7 @@ public class GameItemsTime {
 
     public ImageButton getRestartButton() { return restartButton; }
 
-    public ImageButton getBackButton() { return  backButton; }
+    public ImageButton getPauseButton() { return  pauseButton; }
 
     public float getTime() { return time; }
 
