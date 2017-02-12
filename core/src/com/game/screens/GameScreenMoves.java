@@ -88,6 +88,12 @@ public class GameScreenMoves implements Screen {
     public void resume() {
         inputMultiplexer.addProcessor(directionGestureDetector);
         inputMultiplexer.addProcessor(getRenderStage());
+        if(renderer.getGameOver() != null) {
+            inputMultiplexer.addProcessor(renderer.getGameOverStage());
+        }
+        if(renderer.getPause() != null) {
+            inputMultiplexer.addProcessor(renderer.getPauseStage());
+        }
     }
 
     @Override
