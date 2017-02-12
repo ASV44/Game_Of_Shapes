@@ -56,10 +56,10 @@ public class GameLevelsItems {
     private String direction;
     private float animation;
     private float animated = 0;
-    private float increment = 25;
+    private float increment;
     private Sprite sprite;
     private ImageButton level;
-    private Skin skin;
+    private Skin skin = null;
     private Stage stage = null;
     private FrameBuffer[] levelsFrames;
     private FrameBuffer[] prev_levelsFrames;
@@ -76,6 +76,7 @@ public class GameLevelsItems {
         font1 = create_BitmapFont(12);
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
+        increment = (int) (0.037 * height);
         animation = (float) (0.824 * width);
         direction = "NON";
         currentLevel = this.highScores.size();
@@ -97,7 +98,7 @@ public class GameLevelsItems {
             if(levelsButtons == null) { moveDown(); }
             else { direction = "NON"; }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             game.getInputMultiplexer().clear();
             game.setScreen(game.getModeScreen());
             game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage());
@@ -290,6 +291,7 @@ public class GameLevelsItems {
     public  ImageButton[] create_levelsButtons(String position) {
         final ImageButton[] levelsButtons = new ImageButton[levelsFrames.length];
         for(int i = 0; i < levelsFrames.length; i++) {
+            if(skin != null) { skin.dispose(); }
             skin = new Skin();
             sprite = new Sprite(levelsFrames[i].getColorBufferTexture());
             sprite.setBounds(0, 0, (float) (0.648 * width), (float) (0.3164 * height));
@@ -327,6 +329,8 @@ public class GameLevelsItems {
             });
             stage.addActor(levelsButtons[i]);
         }
+        skin.dispose();
+        skin = null;
         game.getInputMultiplexer().addProcessor(stage);
 
         return  levelsButtons;
@@ -426,6 +430,7 @@ public class GameLevelsItems {
         batch.dispose();
         Shape.dispose();
         font.dispose();
+        font1.dispose();
         frameBuffer.dispose();
         if(prev_frameBuffer != null) { frameBuffer.dispose(); }
         levelsGrid_dispose();
