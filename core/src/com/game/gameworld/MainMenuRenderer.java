@@ -62,6 +62,7 @@ public class MainMenuRenderer {
                 Gdx.app.log("Button_count_moves","works ");
                 if(game.getCurrent_gameScreen() == null) {
                     game.setScreenMoves(new GameScreenMoves(game, "Moves", game.getHighScores().countMoves.size()));
+                    game.setCurrent_gameScreen(game.getScreenMoves());
                     game.setScreen(game.getScreenMoves());
                 }
                 else {
