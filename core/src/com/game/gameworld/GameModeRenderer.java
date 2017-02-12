@@ -118,7 +118,7 @@ public class GameModeRenderer {
         batch.end();
         //stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         //stage.draw();
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             game.getInputMultiplexer().clear();
             game.setScreen(game.getMenuScreen());
             game.getInputMultiplexer().addProcessor(game.getMenuScreen().getStage());
