@@ -41,7 +41,7 @@ public class GameOverRenderer {
     private Color c;
     private String gameMode;
     private String finalMessage;
-    private Texture buttonTexture;
+//    private Texture buttonTexture;
     private Drawable drawable;
     private ImageButton restart;
     private ImageButton menu;
@@ -77,9 +77,10 @@ public class GameOverRenderer {
                 game.setScreen(game.getLevelsScreen());
             }
         });
-        buttonTexture = new Texture(Gdx.files.internal("gameOver.png"));
-        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,745,727,245,151));
-        restart = new ImageButton(drawable);
+//        buttonTexture = new Texture(Gdx.files.internal("gameOver.png"));
+//        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,745,727,245,151));
+        skin.add("restart",new Texture(Gdx.files.internal("restart.png")));
+        restart = new ImageButton(skin.getDrawable("restart"));
         restart.setBounds((float) 0.09 * width, (float) 0.225 * height,(float) 0.231 * width, (float) 0.082 * height);
         restart.addListener(new ActorGestureListener() {
             @Override
@@ -96,8 +97,9 @@ public class GameOverRenderer {
             }
         });
         stage.addActor(restart);
-        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,100,725,245,151));
-        menu = new ImageButton(drawable);
+//        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,100,725,245,151));
+        skin.add("menu",new Texture(Gdx.files.internal("main_menu.png")));
+        menu = new ImageButton(skin.getDrawable("menu"));
         menu.setBounds((float) 0.388 * width, (float) 0.225 * height,(float) 0.231 * width, (float) 0.082 * height);
         menu.addListener(new ActorGestureListener() {
             @Override
@@ -234,7 +236,7 @@ public class GameOverRenderer {
         font.dispose();
         stage.dispose();
         foreground.dispose();
-        buttonTexture.dispose();
+//        buttonTexture.dispose();
         skin.dispose();
     }
 
