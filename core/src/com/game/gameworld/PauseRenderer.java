@@ -31,8 +31,6 @@ public class PauseRenderer {
     private int width, height;
     private SpriteBatch batch;
     private Texture foreground;
-    private Texture buttonTexture;
-    private Drawable drawable;
     private ImageButton levels;
     private ImageButton modes;
     private ImageButton vibration;
@@ -101,8 +99,9 @@ public class PauseRenderer {
            }
         });
         stage.addActor(vibration);
-        buttonTexture = new Texture(Gdx.files.internal("gameOver.png"));
-        skin.add("gameModes", new TextureRegion(buttonTexture,100,725,245,151));
+//        buttonTexture = new Texture(Gdx.files.internal("gameOver.png"));
+//        skin.add("gameModes", new TextureRegion(buttonTexture,100,725,245,151));
+        skin.add("gameModes",new Texture(Gdx.files.internal("main_menu.png")));
         modes = new ImageButton(skin.getDrawable("gameModes"));
         modes.setBounds((float) 0.692 * width, (float) 0.225 * height,(float) 0.231 * width, (float) 0.082 * height);
         modes.addListener(new ActorGestureListener() {
@@ -203,7 +202,6 @@ public class PauseRenderer {
 
     public  void dispose() {
         foreground.dispose();
-        buttonTexture.dispose();
         stage.dispose();
         font.dispose();
         skin.dispose();
