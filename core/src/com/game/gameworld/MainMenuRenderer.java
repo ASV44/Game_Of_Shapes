@@ -34,7 +34,7 @@ public class MainMenuRenderer {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;*/
     private Stage stage;
     private ImageButton gameModes;
-    private ImageButton countMoves;
+    private ImageButton playButton;
     private ImageButton exit;
     private Drawable drawable;
     private Texture buttonTexture;
@@ -54,9 +54,9 @@ public class MainMenuRenderer {
         stage = new Stage();
         buttonTexture = new Texture(Gdx.files.internal("menu.png"));
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,158,507,755,481));
-        countMoves = new ImageButton(drawable);
-        countMoves.setBounds((float) 0.146 * Gdx.graphics.getWidth(), (float) 0.485 * Gdx.graphics.getHeight(),(float) 0.699 * Gdx.graphics.getWidth(), (float) 0.25 * Gdx.graphics.getHeight());
-        countMoves.addListener(new ActorGestureListener() {
+        playButton = new ImageButton(drawable);
+        playButton.setBounds((float) 0.212 * Gdx.graphics.getWidth(), (float) 0.463 * Gdx.graphics.getHeight(),(float) 0.569 * Gdx.graphics.getWidth(), (float) 0.320 * Gdx.graphics.getHeight());
+        playButton.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("Button_count_moves","works ");
@@ -72,10 +72,10 @@ public class MainMenuRenderer {
                 }
             }
         });
-        stage.addActor(countMoves);
+        stage.addActor(playButton);
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,197,1173,672,194));
         gameModes = new ImageButton(drawable);
-        gameModes.setBounds((float) 0.182 * Gdx.graphics.getWidth(), (float) 0.288 * Gdx.graphics.getHeight(), (float) 0.622 * Gdx.graphics.getWidth(), (float) 0.101 * Gdx.graphics.getHeight());
+        gameModes.setBounds((float) 0.185 * Gdx.graphics.getWidth(), (float) 0.270 * Gdx.graphics.getHeight(), (float) 0.622 * Gdx.graphics.getWidth(), (float) 0.0989 * Gdx.graphics.getHeight());
         gameModes.addListener(new ActorGestureListener(){
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
@@ -92,29 +92,29 @@ public class MainMenuRenderer {
             }
         });
         stage.addActor(gameModes);
-        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,415,1603,246,156));
-        exit = new ImageButton(drawable);
-        exit.setBounds((float) 0.384 * Gdx.graphics.getWidth(), (float) 0.084375 * Gdx.graphics.getHeight(), (float) 0.227 * Gdx.graphics.getWidth(), (float) 0.08125 * Gdx.graphics.getHeight());
-        exit.addListener(new ActorGestureListener() {
-            @Override
-            public  void tap(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Button_exit","works ");
-                Gdx.app.exit();
-            }
-        });
-        stage.addActor(exit);
-        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,330,247,345,115));
-        time1 = new ImageButton(drawable);
-        time1.setBounds((float) 0.35 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight(), (float) 0.319 * Gdx.graphics.getWidth(), (float) 0.059 * Gdx.graphics.getHeight());
-        time1.addListener(new ActorGestureListener() {
-            @Override
-            public  void tap(InputEvent event, float x, float y, int count, int button) {
-                Gdx.app.log("Button_time1","works ");
-                game.setScreenMoves(new GameScreenMoves(game, "Time1", game.getHighScores().timeChallenge.size()));
-                game.setScreen(game.getScreenMoves());
-                //return true;
-            }
-        });
+//        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,415,1603,246,156));
+//        exit = new ImageButton(drawable);
+//        exit.setBounds((float) 0.384 * Gdx.graphics.getWidth(), (float) 0.084375 * Gdx.graphics.getHeight(), (float) 0.227 * Gdx.graphics.getWidth(), (float) 0.08125 * Gdx.graphics.getHeight());
+//        exit.addListener(new ActorGestureListener() {
+//            @Override
+//            public  void tap(InputEvent event, float x, float y, int pointer, int button) {
+//                Gdx.app.log("Button_exit","works ");
+//                Gdx.app.exit();
+//            }
+//        });
+//        stage.addActor(exit);
+//        drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,330,247,345,115));
+//        time1 = new ImageButton(drawable);
+//        time1.setBounds((float) 0.35 * Gdx.graphics.getWidth(), (float) 0.45 * Gdx.graphics.getHeight(), (float) 0.319 * Gdx.graphics.getWidth(), (float) 0.059 * Gdx.graphics.getHeight());
+//        time1.addListener(new ActorGestureListener() {
+//            @Override
+//            public  void tap(InputEvent event, float x, float y, int count, int button) {
+//                Gdx.app.log("Button_time1","works ");
+//                game.setScreenMoves(new GameScreenMoves(game, "Time1", game.getHighScores().timeChallenge.size()));
+//                game.setScreen(game.getScreenMoves());
+//                //return true;
+//            }
+//        });
         //Gdx.input.setInputProcessor(stage);
         //stage.addActor(time1);
         game.getInputMultiplexer().addProcessor(stage);
