@@ -72,8 +72,13 @@ public class GameLevelsItems {
         chooseScores(gameMode, game.getHighScores());
         random = new Random();
         batch = new SpriteBatch();
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("code_light.otf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.color = Color.BLACK;
         font = create_BitmapFont(6);
         font1 = create_BitmapFont(12);
+        generator.dispose();
+        parameter = null;
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         increment = (int) (0.037 * height);
@@ -122,6 +127,8 @@ public class GameLevelsItems {
     }
 
     public void createFrameBufferShape(int level) {
+//        if(font != null) { font.dispose();}
+//        font = create_BitmapFont(6);
         if(prev_frameBuffer != null) { prev_frameBuffer.dispose(); }
         if(frameBuffer != null) { prev_frameBuffer = frameBuffer; }
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height,false);
@@ -259,6 +266,8 @@ public class GameLevelsItems {
     public void create_levelsFrames() {
         Gdx.app.log("create levels Frames","start");
         Gdx.app.log("current level","" + currentLevel);
+//        if(font != null) { font.dispose(); }
+//        font = create_BitmapFont(12);
         int levels_onScreen = currentLevel % 9;
         if(levels_onScreen != 0) { levels_onScreen += (highScores.size() - currentLevel); }
         int startLevel = 6 + (((currentLevel - 1) / 9) * 9);
@@ -393,12 +402,12 @@ public class GameLevelsItems {
     public BitmapFont create_BitmapFont(float fontSize) {
         fontSize = fontSize / 100;
         BitmapFont font;
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("code_light.otf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.color = Color.BLACK;
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("code_light.otf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.color = Color.BLACK;
         parameter.size = (int) (fontSize * Gdx.graphics.getHeight());
         font = generator.generateFont(parameter);
-        generator.dispose();
+//        generator.dispose();
 
         return font;
     }
@@ -430,7 +439,6 @@ public class GameLevelsItems {
         batch.dispose();
         Shape.dispose();
         font.dispose();
-        font1.dispose();
         frameBuffer.dispose();
         if(prev_frameBuffer != null) { frameBuffer.dispose(); }
         levelsGrid_dispose();
