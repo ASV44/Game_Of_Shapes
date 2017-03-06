@@ -16,7 +16,7 @@ public class AndroidLauncher extends AndroidApplication implements MyGame.CallBa
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MyGame myGame = new MyGame();
-		myGame.setCallBack(this);
+		//myGame.setCallBack(this);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(myGame, config);
 	}
