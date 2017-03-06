@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.screens.GameLevelsScreen;
+import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
 import com.game.shapes.MyGame;
 
@@ -94,6 +95,10 @@ public class GameOverRenderer {
                     game.getScreenMoves().getItems().setGameState("Active");
                     game.getScreenMoves().getItems().Restart();
                 }
+                if(gameMode.equals("Tutorial")) {
+                    game.getTutorialScreen().getItems().setGameState("Active");
+                    game.getTutorialScreen().getItems().Restart();
+                }
             }
         });
         stage.addActor(restart);
@@ -137,6 +142,14 @@ public class GameOverRenderer {
                     game.getHighScores().update_HighScores();
                     game.getScreenMoves().getItems().setGameState("Active");
                     game.getScreenMoves().getItems().Restart();
+                }
+                if(gameMode.equals("Tutorial")) {
+                    if(game.getScreenMoves() != null) { game.getScreenMoves().dispose(); }
+                    game.setScreenMoves(new GameScreenMoves(game, "Moves", game.getHighScores().countMoves.size()));
+                    game.setCurrent_gameScreen(game.getScreenMoves());
+                    game.setScreen(game.getScreenMoves());
+                    game.getTutorialScreen().dispose();
+                    game.setTutorialScreen(null);
                 }
             }
         });
@@ -205,6 +218,14 @@ public class GameOverRenderer {
             font.draw(batch, "Best Time is:", (float) 0.32 * width, (float) 0.48 * height);
             font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6) + " sec",
                     (float) 0.38 * width, (float) 0.43 * height);
+        }
+        if(gameMode.equals("Tutorial")) {
+            finalMessage = "Excellent !";
+            font.draw(batch, finalMessage, (float) 0.35 * width, (float) 0.75 * height);
+            finalMessage = "Now you are ready for";
+            font.draw(batch, finalMessage, (float) 0.12 * width, (float) 0.67 * height);
+            finalMessage = "Game of Shapes";
+            font.draw(batch, finalMessage, (float) 0.26 * width, (float) 0.58 * height);
         }
 
         batch.end();

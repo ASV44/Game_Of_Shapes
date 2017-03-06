@@ -129,7 +129,7 @@ public class PauseRenderer {
         batch.setColor(c.r, c.g, c.b, .7f);//set alpha to 0.3
         batch.draw(foreground, 0, 0, width, height);
         batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
-        font.draw(batch,"Pause:", (float) 0.33 * Gdx.graphics.getWidth(), (float) 0.73 * Gdx.graphics.getHeight());
+        font.draw(batch,"Pause:", (float) 0.35 * Gdx.graphics.getWidth(), (float) 0.73 * Gdx.graphics.getHeight());
         font.draw(batch,"Current Score is: ", (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
         showCurrentScore();
         font.draw(batch,"Best Score is: ", (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.55 * Gdx.graphics.getHeight());
@@ -183,6 +183,9 @@ public class PauseRenderer {
         if(gameMode.equals("Time1")) {
             font.draw(batch, "" + decimalFormat.format(game.getScreenMoves().getItems().getTime()), (float) 0.45 * width, (float) 0.6 * height);
         }
+        if(gameMode.equals("Tutorial")) {
+            font.draw(batch, "" + game.getTutorialScreen().getItems().getScore(), (float) 0.45 * width, (float) 0.6 * height);
+        }
     }
 
     public void showBestScore() {
@@ -197,6 +200,9 @@ public class PauseRenderer {
         if(gameMode.equals("Time1")) {
             font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6) + " sec",
                     (float) 0.38 * width, (float) 0.5 * height);
+        }
+        if(gameMode.equals("Tutorial")) {
+            font.draw(batch, "Do the Best", (float) 0.34 * width, (float) 0.5 * height);
         }
     }
 

@@ -10,6 +10,7 @@ import com.game.screens.GameModeScreen;
 import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
 import com.game.screens.MainMenuScreen;
+import com.game.screens.TutorialScreen;
 
 public class MyGame extends Game {
 
@@ -27,6 +28,7 @@ public class MyGame extends Game {
 	private HighScores highScores;
 	private String gameMode;
 	private Screen current_gameScreen = null;
+	private TutorialScreen tutorialScreen = null;
 
 	@Override
 	public void create() {
@@ -126,11 +128,13 @@ public class MyGame extends Game {
 	public String getGameMode() { return this.gameMode; }
 	public HighScores getHighScores() { return this.highScores; }
 	public Screen getCurrent_gameScreen() { return  this.current_gameScreen; }
+	public TutorialScreen getTutorialScreen() { return  this.tutorialScreen; }
 	public void setScreenMoves(GameScreenMoves screenMoves) {this.screenMoves = screenMoves; }
 	public void setScreenTime(GameScreenTime screenTime) {this.screenTime = screenTime; }
 	public void setScreenMode(GameModeScreen screenMode) {this.modeScreen = screenMode; }
 	public void setLevelsScreeen(GameLevelsScreen screenLevels) {this.levelsScreen = screenLevels; }
 	public void setGameMode(String gameMode) {this.gameMode = gameMode; }
 	public void setCurrent_gameScreen(Screen gameScreen) { this.current_gameScreen = gameScreen ;}
+	public void setTutorialScreen(TutorialScreen tutorialScreen) { this.tutorialScreen = tutorialScreen; }
 
 }

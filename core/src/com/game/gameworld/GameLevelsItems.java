@@ -245,6 +245,10 @@ public class GameLevelsItems {
             game.getScreenTime().dispose();
             game.setScreenTime(null);
         }
+        if(game.getTutorialScreen() != null) {
+            game.getTutorialScreen().dispose();
+            game.setTutorialScreen(null);
+        }
         if(gameMode.equals("countMoves")) {
             game.setScreenMoves(new GameScreenMoves(game, "Moves", level));
             game.setCurrent_gameScreen(game.getScreenMoves());

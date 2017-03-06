@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.screens.GameModeScreen;
 import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
+import com.game.screens.TutorialScreen;
 import com.game.shapes.MyGame;
 
 /**
@@ -59,7 +61,7 @@ public class MainMenuRenderer {
         playButton.addListener(new ActorGestureListener() {
             @Override
             public  void tap(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Button_count_moves","works ");
+                Gdx.app.log("Button_play","works ");
                 if(game.getCurrent_gameScreen() == null) {
                     game.setScreenMoves(new GameScreenMoves(game, "Moves", game.getHighScores().countMoves.size()));
                     game.setCurrent_gameScreen(game.getScreenMoves());
@@ -71,6 +73,18 @@ public class MainMenuRenderer {
                     game.setScreen(game.getCurrent_gameScreen());
                 }
             }
+            @Override
+            public boolean longPress(Actor actor, float x, float y) {
+                Gdx.app.log("Button_play","long_tap_works ");
+                if(game.getTutorialScreen() != null) {
+                    game.getInputMultiplexer().clear();
+                    game.getTutorialScreen().dispose();
+                    game.setTutorialScreen(null);
+                }
+                game.setTutorialScreen(new TutorialScreen(game, "Moves", 1));
+                game.setScreen(game.getTutorialScreen());
+                return false;
+            }
         });
         stage.addActor(playButton);
         drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture,197,1173,672,194));
@@ -80,13 +94,18 @@ public class MainMenuRenderer {
             @Override
             public  void tap(InputEvent event, float x, float y, int count, int button) {
                 Gdx.app.log("Button_gameModes","works ");
+                if(game.getTutorialScreen() != null) {
+                    game.getTutorialScreen().dispose();
+                    game.setTutorialScreen(null);
+                }
                 if(game.getModeScreen() == null) {
                     game.setScreenMode(new GameModeScreen(game));
                 }
                 else
                 {
                     game.getInputMultiplexer().clear();
-                    game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage()); }
+                    game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage());
+                }
                 game.setScreen(game.getModeScreen());
                 //return true;
             }
