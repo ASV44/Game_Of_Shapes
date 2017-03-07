@@ -96,6 +96,16 @@ public class PauseRenderer {
                        vibration.setChecked(true);
                    }
                }
+               if(gameMode.equals("Tutorial")) {
+                   if(game.getTutorialScreen().getItems().getVibrate()) {
+                       game.getTutorialScreen().getItems().setVibrate(false);
+                       vibration.setChecked(true);
+                   }
+                   else {
+                       game.getTutorialScreen().getItems().setVibrate(true);
+                       vibration.setChecked(false);
+                   }
+               }
            }
         });
         stage.addActor(vibration);
@@ -150,6 +160,14 @@ public class PauseRenderer {
         }
         if(gameMode.equals("Time")) {
             if(!game.getScreenTime().getItems().getVibrate()) {
+                vibration.setChecked(true);
+            }
+            else {
+                vibration.setChecked(false);
+            }
+        }
+        if(gameMode.equals("Tutorial")) {
+            if(!game.getTutorialScreen().getItems().getVibrate()) {
                 vibration.setChecked(true);
             }
             else {
