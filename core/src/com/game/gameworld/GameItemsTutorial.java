@@ -142,18 +142,23 @@ public class GameItemsTutorial {
 
     public void update(float delta) {
         if(gameState.equals("Active")) {
-            if (direction.equals("up")) { moveUp();}
-            if (direction.equals(("down"))) { moveDown(); }
-            if (direction.equals("right")) { moveRight(); }
-            if (direction.equals("left")) { moveLeft(); }
-            if (mode.equals("Time")) {
-                time -= delta;
-                if (time < 0) { gameState = "gameOver"; }//callBack.gameOver(score);
+            if(direction.equals(hand_direction)) {
+                if (direction.equals("up")) { moveUp();}
+                if (direction.equals(("down"))) { moveDown(); }
+                if (direction.equals("right")) { moveRight(); }
+                if (direction.equals("left")) { moveLeft(); }
+                if (mode.equals("Time")) {
+                    time -= delta;
+                    if (time < 0) { gameState = "gameOver"; }//callBack.gameOver(score);
+                }
+                if(mode.equals("Time1")) {
+                    time += delta;
+                }
             }
-            if(mode.equals("Time1")) {
-                time += delta;
+            else {
+                direction = "NON";
+                moveHand();
             }
-            moveHand();
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(gameState.equals("Active") || gameState.equals("gameOver")) {
@@ -567,7 +572,6 @@ public class GameItemsTutorial {
         int ignoreTo = 0;
         int wasAnimated =0;
         int number_of_shapes = vertical_shapes.length;
-        if(!hand_direction.equals("NONE")) { hand_direction = "NONE"; }
         //int shapes_in_array = 0;
         //if(vertical_shapes[5] == null) { shapes_in_array = count_not_null(vertical_shapes); }
         if(vertical_shapes[2] == null) {
@@ -666,7 +670,6 @@ public class GameItemsTutorial {
         int ignoreTo = -1;
         int wasAnimated = 0;
         int number_of_shapes = vertical_shapes.length;
-        if(!hand_direction.equals("NONE")) { hand_direction = "NONE"; }
         if(vertical_shapes[2] == null) {
             if(connectionPerformed == 1 || number_of_shapes > 6) {
                 moveToCenter = 1;
@@ -762,7 +765,6 @@ public class GameItemsTutorial {
         int ignoreTo = 0;
         int wasAnimated = 0;
         int number_of_shapes = horizontal_shapes.length;
-        if(!hand_direction.equals("NONE")) { hand_direction = "NONE"; }
         Gdx.app.log("Number_of_Shapes", "" + number_of_shapes);
         if(horizontal_shapes[2] == null) {
             if(connectionPerformed == 1  || number_of_shapes > 6) {
@@ -864,7 +866,6 @@ public class GameItemsTutorial {
         int ignoreTo = -1;
         int wasAnimated = 0;
         int number_of_shapes = horizontal_shapes.length;
-        if(!hand_direction.equals("NONE")) { hand_direction = "NONE"; }
         if(horizontal_shapes[2] == null) {
             if(connectionPerformed == 1  || number_of_shapes > 6) {
                 moveToCenter = 1;

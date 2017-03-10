@@ -71,7 +71,7 @@ public class GameRendererTutorial {
                 drawShape_horizontal(items.getShapesHorizontal(i));
             }
         }
-        if(!items.getHand_direction().equals("NONE")) {
+        if(!items.getHand_direction().equals(items.getDirection())) {
             if(items.getHand_direction().equals("left") || items.getHand_direction().equals("right")) {
                 items.getHand().draw(batch, items.getHand_x(), items.getHand_y(),(float) 0.185 * Gdx.graphics.getWidth() , (float) 0.225 * Gdx.graphics.getHeight());
             }
