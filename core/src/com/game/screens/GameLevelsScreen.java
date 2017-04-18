@@ -3,6 +3,9 @@ package com.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.game.gameworld.GameLevelsItems;
 import com.game.gameworld.GameLevelsRenderer;
 import com.game.gesturedetector.DirectionGestureDetector;
@@ -16,10 +19,17 @@ public class GameLevelsScreen implements Screen {
     private GameLevelsItems items;
     private GameLevelsRenderer renderer;
     private InputMultiplexer inputMultiplexer;
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private BitmapFont font1;
 
     public GameLevelsScreen(MyGame game, String gameMode) {
         this.inputMultiplexer = game.getInputMultiplexer();
         inputMultiplexer.clear();
+//        generator = new FreeTypeFontGenerator(Gdx.files.internal("code_light.otf"));
+//        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.color = Color.BLACK;
+//        font1 = create_BitmapFont(12);
         items = new GameLevelsItems(game, gameMode);
         renderer =  new GameLevelsRenderer(game,items);
 
@@ -89,4 +99,5 @@ public class GameLevelsScreen implements Screen {
         items.dispose();
         renderer.dispose();
     }
+
 }

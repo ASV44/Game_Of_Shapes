@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.game.screens.GameModeScreen;
 import com.game.screens.GameScreenMoves;
 import com.game.screens.GameScreenTime;
 import com.game.shapes.HighScores;
@@ -75,8 +76,10 @@ public class GameLevelsItems {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("code_light.otf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = Color.BLACK;
-        font = create_BitmapFont(6);
-        font1 = create_BitmapFont(12);
+        font = create_BitmapFont(2);
+        font.getData().setScale(3f,3f);
+        //font1 = create_BitmapFont(12);
+        this.font1 = font;
         generator.dispose();
         parameter = null;
         width = Gdx.graphics.getWidth();
@@ -105,6 +108,9 @@ public class GameLevelsItems {
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             game.getInputMultiplexer().clear();
+            if(game.getModeScreen() == null) {
+                game.setScreenMode(new GameModeScreen(game));
+            }
             game.setScreen(game.getModeScreen());
             game.getInputMultiplexer().addProcessor(game.getModeScreen().getStage());
         }
@@ -293,8 +299,10 @@ public class GameLevelsItems {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             batch.begin();
             batch.draw(Shape,0,0,width,height);
-            font1.draw(batch,(startLevel + i) + " x " + (startLevel + i),(float) (0.17 * width),(float) (0.625 * height));
-            font1.draw(batch,"" + highScores.get(startLevel - 6 + i),(float) (0.3 * width),(float) (0.245 * height));
+            font1.getData().setScale(6f,7.5f);
+            font1.draw(batch,(startLevel + i) + " x " + (startLevel + i),(float) (0.17 * width),(float) (0.625 * height));//here font1
+            font1.draw(batch,"" + highScores.get(startLevel - 6 + i),(float) (0.3 * width),(float) (0.245 * height));//here font1
+            font1.getData().setScale(3f,3f);
             batch.end();
             levelsFrames[i].end();
         }
