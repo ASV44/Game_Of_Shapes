@@ -1,9 +1,13 @@
 # The Game Of Shapes
 "The Game of Shapes", Android platform, puzzle game
 
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/1.png)
+
 Game rule:
 1. Combine shapes which can make a perfect figure(complement each other)
 2. Shapes parts should be of otherwise colors(one part dark, one part ligt)
+
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/2.png)
 
 Game Modes:
 1. Count Moves
@@ -26,5 +30,13 @@ Score is represented by number of shapes which you combined.
 
 Do it the best.
 
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/3.png)
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/4.png)
+
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/5.png)
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/6.png)
+
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/7.png)
+![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/8.png)
 
 Just clone or download and install apk from android/build/outputs/apk, and try to combine all Shapes
