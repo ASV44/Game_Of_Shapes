@@ -3,13 +3,14 @@
 
 ![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/1.png)
 
-Game rule:
+# Game rule:
 1. Combine shapes which can make a perfect figure(complement each other)
 2. Shapes parts should be of otherwise colors(one part dark, one part ligt)
 
+# Game Modes:
+
 ![alt_tag](https://github.com/ASV44/Game_Of_Shapes/blob/master/screens/2.png)
 
-Game Modes:
 1. Count Moves
 
 Each move of figure cost you -10 points, each figures combaning cost +100 points.
