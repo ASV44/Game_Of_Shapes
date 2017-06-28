@@ -89,11 +89,11 @@ public class PauseRenderer {
                if(gameMode.equals("Time")) {
                    if(game.getScreenTime().getItems().getVibrate()) {
                        game.getScreenTime().getItems().setVibrate(false);
-                       vibration.setChecked(false);
+                       vibration.setChecked(true);
                    }
                    else {
                        game.getScreenTime().getItems().setVibrate(true);
-                       vibration.setChecked(true);
+                       vibration.setChecked(false);
                    }
                }
                if(gameMode.equals("Tutorial")) {
