@@ -139,10 +139,10 @@ public class PauseRenderer {
         batch.setColor(c.r, c.g, c.b, .7f);//set alpha to 0.3
         batch.draw(foreground, 0, 0, width, height);
         batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
-        font.draw(batch,"Pause:", (float) 0.35 * Gdx.graphics.getWidth(), (float) 0.73 * Gdx.graphics.getHeight());
-        font.draw(batch,"Current Score is: ", (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.65 * Gdx.graphics.getHeight());
+        font.draw(batch,"Pause:", (float) 0.4 * Gdx.graphics.getWidth(), (float) 0.71 * Gdx.graphics.getHeight());
+        font.draw(batch,"Current Score is: ", (float) 0.22 * Gdx.graphics.getWidth(), (float) 0.62 * Gdx.graphics.getHeight());
         showCurrentScore();
-        font.draw(batch,"Best Score is: ", (float) 0.18 * Gdx.graphics.getWidth(), (float) 0.55 * Gdx.graphics.getHeight());
+        font.draw(batch,"Best Score is: ", (float) 0.29 * Gdx.graphics.getWidth(), (float) 0.52 * Gdx.graphics.getHeight());
         showBestScore();
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
@@ -192,36 +192,45 @@ public class PauseRenderer {
     public void showCurrentScore() {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+        String score = "";
+        float x = 0.48f;
+        float y = 0.58f;
+
         if(gameMode.equals("Moves")) {
-            font.draw(batch, "" + game.getScreenMoves().getItems().getScore(), (float) 0.45 * width, (float) 0.6 * height);
+            score += game.getScreenMoves().getItems().getScore();
         }
         if(gameMode.equals("Time")) {
-            font.draw(batch, "" + game.getScreenTime().getItems().getScore(), (float) 0.45 * width, (float) 0.6 * height);
+            score += game.getScreenTime().getItems().getScore();
         }
         if(gameMode.equals("Time1")) {
-            font.draw(batch, "" + decimalFormat.format(game.getScreenMoves().getItems().getTime()), (float) 0.45 * width, (float) 0.6 * height);
+            score = decimalFormat.format(game.getScreenMoves().getItems().getTime());
         }
         if(gameMode.equals("Tutorial")) {
-            font.draw(batch, "" + game.getTutorialScreen().getItems().getScore(), (float) 0.45 * width, (float) 0.6 * height);
+            score += game.getTutorialScreen().getItems().getScore();
         }
+        x -= (float) score.length() / 100;
+        font.draw(batch, score, x * width, y * height);
     }
 
     public void showBestScore() {
+        String score = "";
+        float x = 0.48f;
+        float y = 0.48f;
+
         if(gameMode.equals("Moves")) {
-            font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6),
-                    (float) 0.45 * width, (float) 0.5 * height);
+            score = game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6);
         }
         if(gameMode.equals("Time")) {
-            font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenTime().getItems().getLevel() - 6),
-                    (float) 0.45 * width, (float) 0.5 * height);
+            score = game.getHighScores().getScores(gameMode).get(game.getScreenTime().getItems().getLevel() - 6);
         }
         if(gameMode.equals("Time1")) {
-            font.draw(batch, "" + game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6) + " sec",
-                    (float) 0.38 * width, (float) 0.5 * height);
+            score = game.getHighScores().getScores(gameMode).get(game.getScreenMoves().getItems().getLevel() - 6);
         }
         if(gameMode.equals("Tutorial")) {
-            font.draw(batch, "Do the Best", (float) 0.34 * width, (float) 0.5 * height);
+            score += 0;
         }
+        x -= (float) score.length() / 100;
+        font.draw(batch, score, x * width, y * height);
     }
 
     public  void dispose() {

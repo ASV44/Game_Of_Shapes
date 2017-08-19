@@ -46,6 +46,8 @@ public class GameItemsTime {
     private String gameMode;
     private int level;
     private boolean vibrate = true;
+    private String[] Light;
+    private String[] Dark;
 
 
     public GameItemsTime(final MyGame game, String gameMode, int level) {
@@ -54,6 +56,13 @@ public class GameItemsTime {
         number_of_shapes = level + 5;
         vertical_shapes = new Shape[number_of_shapes];
         horizontal_shapes = new Shape[number_of_shapes];
+        Light = new String[24];
+        Dark = new String[24];
+        try {
+            this.getShapesName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for(int i = 0; i < number_of_shapes; i++) {
             if(i == 2) {
                 //vertical_shapes[i] = horizontal_shapes[i] = new Shape("vertical", i, "Shapes/Light/11_30.png");//choose_shape());
@@ -61,12 +70,8 @@ public class GameItemsTime {
                 continue;
             }
             else {
-                try {
-                    vertical_shapes[i] = new Shape("vertical", i, choose_shape());
-                    horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                } catch(IOException exception) {
-                    Gdx.app.log("Exception", "", exception);
-                }
+                vertical_shapes[i] = new Shape("vertical", i, choose_shape());
+                horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
             }
         }
         Random random = new Random();
@@ -153,15 +158,14 @@ public class GameItemsTime {
         }
     }
 
-    public String choose_shape() throws IOException {
+    private void getShapesName() throws IOException {
         FileHandle light = Gdx.files.internal("Shapes/Light/Light.txt");
         FileHandle dark = Gdx.files.internal("Shapes/Dark/Dark.txt");
         BufferedReader bufferedReader_light = new BufferedReader(light.reader());
         BufferedReader bufferedReader_dark = new BufferedReader(dark.reader());
         String light_name = null;
         String dark_name = null;
-        String[] Light = new String[24];
-        String[] Dark = new String[24];
+
         int i = 0;
 
         try {
@@ -174,6 +178,9 @@ public class GameItemsTime {
             bufferedReader_light.close();
             bufferedReader_dark.close();
         }
+    }
+
+    public String choose_shape() {
         String shape_name = "Shapes/";
         int random_shape;
         Random random = new Random();
@@ -230,7 +237,7 @@ public class GameItemsTime {
             currentShapes = vertical_shapes;
         }
         else { currentShapes = horizontal_shapes; }
-        while(randomShape_position == position || randomShape_position == 2) {
+        while(randomShape_position == position || currentShapes[randomShape_position] == null) {
             randomShape_position = random.nextInt(currentShapes.length);
         }
         if(random.nextInt(2) == 0)
@@ -345,7 +352,8 @@ public class GameItemsTime {
             }
             if (i == -1) {
                 vertical_shapes[0] = vertical_shapes[number_of_shapes - 1];
-                create_shape_homogeneous("vertical",number_of_shapes - 1);
+//                create_shape_homogeneous("vertical",number_of_shapes - 1);
+                vertical_shapes[number_of_shapes - 1]= new Shape("vertical", number_of_shapes - 1, choose_shape());
             }
         }
     }
@@ -361,7 +369,9 @@ public class GameItemsTime {
                 vertical_shapes[i - 1] = vertical_shapes[i];
             }
             if (i == number_of_shapes - 1) {
-                create_shape_homogeneous("vertical",number_of_shapes - 1);
+//                create_shape_homogeneous("vertical",number_of_shapes - 1);
+                vertical_shapes[i]= new Shape("vertical", i, choose_shape());
+
             }
         }
     }
@@ -378,7 +388,8 @@ public class GameItemsTime {
             }
             if (i == -1) {
                 horizontal_shapes[0] = horizontal_shapes[number_of_shapes - 1];
-                create_shape_homogeneous("horizontal",number_of_shapes - 1);
+//                create_shape_homogeneous("horizontal",number_of_shapes - 1);
+                horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape());
             }
         }
     }
@@ -394,7 +405,8 @@ public class GameItemsTime {
                 horizontal_shapes[i - 1] = horizontal_shapes[i];
             }
             if (i == number_of_shapes - 1) {
-                create_shape_homogeneous("horizontal",number_of_shapes - 1);
+//                create_shape_homogeneous("horizontal",number_of_shapes - 1);
+                horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
             }
         }
     }
@@ -701,14 +713,10 @@ public class GameItemsTime {
                 vertical_shapes[i].dispose(); }
             if (horizontal_shapes[i] != null) {
                 horizontal_shapes[i].dispose();}
-            try {
-                if(i == 2) { continue;}
-                else {
-                    vertical_shapes[i] = new Shape("vertical", i, choose_shape());
-                    horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
-                }
-            } catch(IOException exception) {
-                Gdx.app.log("Exception", "", exception);
+            if(i == 2) { continue;}
+            else {
+                vertical_shapes[i] = new Shape("vertical", i, choose_shape());
+                horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
             }
             game.getScreenTime().getRenderer().setLevel(level);
         }

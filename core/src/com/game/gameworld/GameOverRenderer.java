@@ -169,10 +169,6 @@ public class GameOverRenderer {
         batch.setColor(c.r, c.g, c.b, 1f); //set alpha to 1
         if( gameMode.equals("Time")) {
             if(game.getScreenTime().getItems().getScore() <= 0) {
-                finalMessage = "Game Over!";
-                font.draw(batch, finalMessage,(float) 0.33 * width, (float) 0.65 * height);
-                finalMessage = "Try one more time";
-                font.draw(batch, finalMessage,(float) 0.18 * width, (float) 0.57 * height);
                 stage.getRoot().removeActor(nextLevel);
                 stage.addActor(levels);
             }

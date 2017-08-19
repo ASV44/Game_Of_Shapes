@@ -54,8 +54,8 @@ public class GameItemsMoves {
     private int connectionPerformed;
     private int wasCopied;
     private boolean vibrate = true;
-
-
+    private String[] Light;
+    private String[] Dark;
 
     public GameItemsMoves(final MyGame game, String mode, int level) {
         background = new Texture(Gdx.files.internal("background.png"));
@@ -65,6 +65,13 @@ public class GameItemsMoves {
         number_of_shapes_horizontal = number_of_shapes_vertical + 1;
         vertical_shapes = new Shape[number_of_shapes_vertical];
         horizontal_shapes = new Shape[number_of_shapes_horizontal];
+        Light = new String[24];
+        Dark = new String[24];
+        try {
+            this.getShapesName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         create_shapes_homogeneous();
         direction = "NON";
         moves = 0;
@@ -141,15 +148,14 @@ public class GameItemsMoves {
         }
     }
 
-    public String choose_shape() throws IOException {
+    private void getShapesName() throws IOException {
         FileHandle light = Gdx.files.internal("Shapes/Light/Light.txt");
         FileHandle dark = Gdx.files.internal("Shapes/Dark/Dark.txt");
         BufferedReader bufferedReader_light = new BufferedReader(light.reader());
         BufferedReader bufferedReader_dark = new BufferedReader(dark.reader());
         String light_name = null;
         String dark_name = null;
-        String[] Light = new String[24];
-        String[] Dark = new String[24];
+
         int i = 0;
 
         try {
@@ -162,6 +168,9 @@ public class GameItemsMoves {
             bufferedReader_light.close();
             bufferedReader_dark.close();
         }
+    }
+
+    public String choose_shape() {
         String shape_name = "Shapes/";
         int random_shape;
         Random random = new Random();
@@ -223,12 +232,10 @@ public class GameItemsMoves {
             current_shape = current_null_elements.get(random.nextInt(current_null_elements.size()));
             current_null_elements.remove(current_null_elements.indexOf(current_shape));
             if(current_shape != 2) {
-                try{current_array_shapes[current_shape] = new Shape(orientation, current_shape, choose_shape());}
-                catch (IOException exception) {Gdx.app.log("Exception", "", exception);}
+                current_array_shapes[current_shape] = new Shape(orientation, current_shape, choose_shape());
             }
             else {
-                try{vertical_shapes[current_shape] = horizontal_shapes[current_shape] = new Shape(orientation, current_shape, choose_shape());}
-                catch (IOException exception) {Gdx.app.log("Exception", "", exception);}
+                vertical_shapes[current_shape] = horizontal_shapes[current_shape] = new Shape(orientation, current_shape, choose_shape());
             }
             created_shapes ++;
             if(current_array_shapes[current_shape].name.contains("Light")) {reflex_shape_name += "Dark/";}
@@ -294,8 +301,7 @@ public class GameItemsMoves {
                 if(number_of_shapes <= 6 && vertical_shapes[i] != null && ignoreFrom != 0 && ignoreTo != 0) { vertical_shapes[i] = null; }
                 if(ignoreFrom !=0 && ignoreTo !=0) {
                     if(mode.equals("Time")) {
-                        try { vertical_shapes[i] = new Shape("vertical", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                        vertical_shapes[i] = new Shape("vertical", i, choose_shape());
                     }
                     if(mode.equals("Moves") || mode.equals("Time1")) {
                         if(number_of_shapes > 6) {
@@ -321,8 +327,7 @@ public class GameItemsMoves {
                     if(number_of_shapes <= 6 && vertical_shapes[i] != null && ignoreFrom != -1 && ignoreTo != -1) { vertical_shapes[i] = null; }
                     if(ignoreFrom != -1 && ignoreTo != -1) {
                         if(mode.equals("Time")) {
-                        try { vertical_shapes[i] = new Shape("vertical", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                            vertical_shapes[i] = new Shape("vertical", i, choose_shape());
                         }
                         if(mode.equals("Moves") || mode.equals("Time1")) {
                             if (number_of_shapes > 6) {
@@ -365,8 +370,7 @@ public class GameItemsMoves {
                 if(number_of_shapes <= 6 && horizontal_shapes[i] != null && ignoreFrom != 0 && ignoreTo != 0) { horizontal_shapes[i] = null; }
                 if (ignoreFrom != 0 && ignoreTo != 0) {
                     if (mode.equals("Time")) {
-                        try { horizontal_shapes[i] = new Shape("horizontal", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                        horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
                     }
                     if (mode.equals("Moves") || mode.equals("Time1")) {
                         if (number_of_shapes > 6) {
@@ -392,8 +396,7 @@ public class GameItemsMoves {
                     if(number_of_shapes <= 6 && horizontal_shapes[i] != null && ignoreFrom != -1 && ignoreTo != -1) { horizontal_shapes[i] = null; }
                     if(ignoreFrom != -1 && ignoreTo != -1) {
                         if(mode.equals("Time")) {
-                        try { horizontal_shapes[i] = new Shape("horizontal", i, choose_shape()); }
-                        catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                            horizontal_shapes[i] = new Shape("horizontal", i, choose_shape());
                         }
                         if(mode.equals("Moves") || mode.equals("Time1")) {
                             if (number_of_shapes > 6) {
@@ -432,8 +435,7 @@ public class GameItemsMoves {
                 vertical_shapes[0] = vertical_shapes[number_of_shapes - 1];
                 vertical_shapes[number_of_shapes - 1] = null;
                 if (mode.equals("Time")) {
-                    try { vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape()); }
-                    catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape());
                 }
                 if (mode.equals("Moves") || mode.equals("Time1")) {
                     if(number_of_shapes > 6) {
@@ -460,8 +462,7 @@ public class GameItemsMoves {
             if (i == number_of_shapes - 1) {
                 vertical_shapes[number_of_shapes - 1] = null;
                 if (mode.equals("Time")) {
-                    try { vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape());}
-                    catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    vertical_shapes[number_of_shapes - 1] = new Shape("vertical", number_of_shapes - 1, choose_shape());
                 }
                 if (mode.equals("Moves") || mode.equals("Time1")) {
                     if (number_of_shapes > 6) {
@@ -489,8 +490,7 @@ public class GameItemsMoves {
                 horizontal_shapes[0] = horizontal_shapes[number_of_shapes - 1];
                 horizontal_shapes[number_of_shapes - 1] = null;
                 if (mode.equals("Time")) {
-                try { horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape()); }
-                catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape());
                 }
                 if (mode.equals("Moves") || mode.equals("Time1")) {
                     if(number_of_shapes > 6) {
@@ -519,8 +519,7 @@ public class GameItemsMoves {
             if (i == number_of_shapes - 1) {
                 horizontal_shapes[number_of_shapes - 1] = null;
                 if (mode.equals("Time")) {
-                    try { horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape()); }
-                    catch (IOException exception) { Gdx.app.log("Exception", "", exception); }
+                    horizontal_shapes[number_of_shapes - 1] = new Shape("horizontal", number_of_shapes - 1, choose_shape());
                 }
                 if (mode.equals("Moves") || mode.equals("Time1")) {
                     if (number_of_shapes > 6) {

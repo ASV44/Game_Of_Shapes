@@ -77,7 +77,12 @@ public class GameRendererMoves {
         font.draw(batch, level,(float) 0.1* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         font.draw(batch, "Score:" + items.getScore(),(float) 0.33* Gdx.graphics.getWidth(), (float) 0.82 * Gdx.graphics.getHeight());
         time = items.getTime();
-        if(items.getMode().equals("Time") || items.getMode().equals("Time1")) { font.draw(batch, "Time:" + ((int) time / 60 ) + ":" +  ((int) time  % 60) ,(float)0.8* Gdx.graphics.getWidth(), (float) 0.68 * Gdx.graphics.getHeight());}
+        if(items.getMode().equals("Time") || items.getMode().equals("Time1")) {
+            font.getData().setScale(1.5f,1.5f);
+            font.draw(batch, "Time:" + ((int) time / 60 ) + ":" +  ((int) time  % 60),
+                    (float)0.73* Gdx.graphics.getWidth(), (float) 0.68 * Gdx.graphics.getHeight());
+            font.getData().setScale(1,1);
+        }
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         stage.draw();
